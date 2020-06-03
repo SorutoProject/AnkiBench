@@ -1,0 +1,23 @@
+{
+  "name": "anki-bench",
+  "version": "1.0.0",
+  "description": "\"AnkiBench\" is a webapp that allows you to memorize anything more quickly.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SorutoProject/AnkiBench.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SorutoProject/AnkiBench/issues"
+  },
+  "homepage": "https://github.com/SorutoProject/AnkiBench#readme",
+  "devDependencies": {
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
+  }
+}
