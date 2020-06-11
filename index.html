@@ -7,8 +7,8 @@
 	<script src="sheetjs/xlsx.full.min.js"></script>
 	<script>
 	document.addEventListener("DOMContentLoaded", function(){
-		document.getElementById("import").addEventListener("change", function(e){
-			const file = e.target.files[0];
+		document.getElementById("generateStart").addEventListener("click", function(e){
+			const file = document.getElementById("import").files[0];
 			const reader = new FileReader();
 			reader.onload = function(){
 				const data = new Uint8Array(reader.result);
@@ -72,10 +72,11 @@
             </h2><ol>
 <li><p style="padding-bottom: 3px;">Excelなどの表計算アプリを用いて、A列に問題、B列に答えを書きます。</p>
 <ul>
-<li>A列(問題)に英単語などを書くと、「英単語暗記モード」、それ以外の場合は、「通常暗記モード」で表示されます。</li>
+<li>A列(問題)に英単語などを書くと、「英単語カード表示」、それ以外の場合は、「通常問題表示」で表示されます。</li>
 <li>答えが複数ある場合は、<code style="background: rgb(238, 238, 238) none repeat scroll 0% 0%; border-radius: 3px; font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, Meiryo, monospace; padding: 0px 3px;">/</code>（スラッシュ)で区切ってください。</li>
 <li><strong>ワークシート名</strong>が、「単元選択」画面で表示される単元名となります。</li>
 <li>複数のワークシートを作成することで、複数の問題リストを作成できます。</li>
+	<li>C列に<code style="background: rgb(238, 238, 238) none repeat scroll 0% 0%; border-radius: 3px; font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, Meiryo, monospace; padding: 0px 3px;">wordcard</code>と書くと、その問題は強制的に「英単語カード表示」になります。<br>古文単語などの暗記に使えるかもしれません。</li>
 <li>例1(英単語暗記）<table style="border-collapse: collapse;">
 <thead>
 <tr>
@@ -134,6 +135,7 @@
 </li>
 <li><p style="padding-bottom: 3px;">手順2で保存したデータを下のボタンを押して出てきたダイアログから選択してください。</p>
 <input type="file" id="import" accept=".xlsx"> </li>
+<li><p style="padding-bottom: 3px;">ここまで完了したら、下の「作成」ボタンを押してください。</p><button id="generateStart" style="padding:auto 10px;">作成</button></li>
 <li><p style="padding-bottom: 3px;">この文の下にリンクが表示されたら、クリックしてください。ファイルがダウンロードされます。</p>
 <div id="linkfield"></div></li>
 <li><p style="padding-bottom: 3px;">ダウンロードされたファイルをブラウザで開くと、AnkiBenchが起動します。</p>

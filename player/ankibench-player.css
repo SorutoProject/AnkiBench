@@ -88,7 +88,7 @@ div.ankibench-card.normal .ankibench-card-question{
 	font-size:16pt;
 	font-weight: bold;
 }
-div.ankibench-card.english .ankibench-card-question {
+div.ankibench-card.wordcard .ankibench-card-question {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -109,13 +109,13 @@ div.ankibench-card .ankibench-card-question.showFirstLetter::first-letter{
 }
 
 
-div.ankibench-card.english .ankibench-card-answer {
+div.ankibench-card.wordcard .ankibench-card-answer {
 	position: absolute;
 	top: 60px;
 	left: 0;
 	right: 0;
 	margin: auto;
-	max-width: 400px;
+	max-width: 550px;
 	height: 290px;
 	font-size: 12pt;
 	overflow: auto;

@@ -130,7 +130,7 @@ div.ankibench-card.normal .ankibench-card-question{
 	font-size:16pt;
 	font-weight: bold;
 }
-div.ankibench-card.english .ankibench-card-question {
+div.ankibench-card.wordcard .ankibench-card-question {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -151,13 +151,13 @@ div.ankibench-card .ankibench-card-question.showFirstLetter::first-letter{
 }
 
 
-div.ankibench-card.english .ankibench-card-answer {
+div.ankibench-card.wordcard .ankibench-card-answer {
 	position: absolute;
 	top: 60px;
 	left: 0;
 	right: 0;
 	margin: auto;
-	max-width: 400px;
+	max-width: 550px;
 	height: 290px;
 	font-size: 12pt;
 	overflow: auto;
@@ -218,8 +218,8 @@ var _get=function t(e,i,n){null===e&&(e=Function.prototype);var s=Object.getOwnP
 			}
 			const qdata = shuffle(doc.data[name]);
 			let exportHTML = "";
-			if (hideMode === "ja") exportHTML = `<div id="ankibench-learn-title">${name}（英語 ⇒ 日本語）<div id="ankibench-learn-percent" data-sum="${qdata.length}" style="width:0%"></div></div><div class="ankibench-card-finish">すべてのカードを覚えました<br>別の単元を覚えるには、上の「単元選択」をタップしてから、単元を選んでください。</div>`;
-			else exportHTML = `<div id="ankibench-learn-title" data-sum="${qdata.length}">${name}（日本語 ⇒ 英語）<div id="ankibench-learn-percent" data-sum="${qdata.length}" style="width:0%"></div></div><div class="ankibench-card-finish">すべてのカードを覚えました<br>別の単元を覚えるには、上の「単元選択」をタップしてから、単元を選んでください。</div>`;
+			if (hideMode === "ja") exportHTML = `<div id="ankibench-learn-title">${name}（問題 ⇒ 答え）<div id="ankibench-learn-percent" data-sum="${qdata.length}" style="width:0%"></div></div><div class="ankibench-card-finish">すべてのカードを覚えました<br>別の単元を覚えるには、上の「単元選択」をタップしてから、単元を選んでください。</div>`;
+			else exportHTML = `<div id="ankibench-learn-title" data-sum="${qdata.length}">${name}（答え ⇒ 問題）<div id="ankibench-learn-percent" data-sum="${qdata.length}" style="width:0%"></div></div><div class="ankibench-card-finish">すべてのカードを覚えました<br>別の単元を覚えるには、上の「単元選択」をタップしてから、単元を選んでください。</div>`;
 			qdata.forEach(function (data) {
 				const question = DOMPurify.sanitize(data[0]);
 				let answer = '<ul class="browser-default">';
@@ -229,16 +229,21 @@ var _get=function t(e,i,n){null===e&&(e=Function.prototype);var s=Object.getOwnP
 
 				//Check whether question is a word
 				let qmode;
-				if (question.trim().split(" ").length === 1 && question.trim().match(/^[a-zA-Z]*$/)) {
-					qmode = "english";
-				} else {
+				if(typeof data[2] !== "undefined"){
+					if(data[2].toLowerCase() === "wordcard") qmode = "wordcard";
+					else qmode = "normal";
+				}
+				else if (question.trim().split(" ").length === 1 && question.trim().match(/^[a-zA-Z]*$/)) {
+					qmode = "wordcard";
+				}
+				else {
 					qmode = "normal";
 				}
 				exportHTML += `<div class="ankibench-card ${qmode}" data-unrecollect="1" data-hidemode="${hideMode}"><div class="ankibench-card-question" onclick="ankiBench.changeCardView(event);">${question}</div><div class="ankibench-card-answer">${answer}</div><footer class="row"><a href="javascript:void(0);" class="col s6 l2 offset-l4 btn blue lighten-1 waves-effect" onclick="ankiBench.answerToCard(event,false)">わからない</a><a href="javascript:void(0);" class="col s6 l2 btn pink lighten-1 waves-effect" onclick="ankiBench.answerToCard(event,true);">わかる</a></footer></div>`;
 			});
 			document.getElementById("ankibench-learn").innerHTML = exportHTML;
 			document.querySelectorAll("#ankibench-learn div.ankibench-card").forEach(function (elem) {
-				if (elem.classList.contains("english")) {
+				if (elem.classList.contains("wordcard")) {
 					if (elem.dataset.hidemode === "ja") elem.querySelector(".ankibench-card-answer").classList.add("hidden");
 					else elem.querySelector(".ankibench-card-question").classList.add("hidden");
 				} else {
@@ -246,8 +251,8 @@ var _get=function t(e,i,n){null===e&&(e=Function.prototype);var s=Object.getOwnP
 				}
 				elem.addEventListener("click", function (e) {
 					const target = e.currentTarget;
-					//english words learning mode
-					if (target.classList.contains("english")) {
+					//wordcard learning mode
+					if (target.classList.contains("wordcard")) {
 						if (target.dataset.hidemode === "ja") {
 							if (target.querySelector(".ankibench-card-answer").classList.contains("show")) {
 								target.querySelector(".ankibench-card-answer").classList.remove("show");
@@ -288,14 +293,14 @@ var _get=function t(e,i,n){null===e&&(e=Function.prototype);var s=Object.getOwnP
 	},
 
 	"startFromList": function (event, key) {
-		ankiBench.modal(`<h5>出題モードの選択</h5><p>英単語のカードでどちらを答えるか選んでください。<br>※通常の問題カードは、ここでの選択の影響は受けません。</p><div class="row"><a href="javascript:void(0)" class="modal-close waves-effect btn-large pink col s12 l4 offset-l2" onclick="ankiBench.start(ankiBench.getEmbedJSON(), '${key}', 'ja');">英語 ⇒ 日本語</a><a href="javascript:void(0)" class="modal-close waves-effect btn-large blue lighten-1 col s12 l4" onclick="ankiBench.start(ankiBench.getEmbedJSON(), '${key}', 'en');">日本語 ⇒ 英語</a></div>`, `<a href="javascript:void(0)" class="modal-close waves-effect btn-flat">キャンセル</a>`)
+		ankiBench.modal(`<h5>出題モードの選択</h5><p>「単語カード表示」の問題でどちらを答えるか選んでください。<br>※「通常問題表示」の問題は、ここでの選択の影響は受けません。</p><div class="row"><a href="javascript:void(0)" class="modal-close waves-effect btn-large pink col s12 xl4 offset-xl2" onclick="ankiBench.start(ankiBench.getEmbedJSON(), '${key}', 'ja');">問題 ⇒ 答え</a><a href="javascript:void(0)" class="modal-close waves-effect btn-large blue lighten-1 col s12 xl4" onclick="ankiBench.start(ankiBench.getEmbedJSON(), '${key}', 'en');">答え ⇒ 問題</a></div>`, `<a href="javascript:void(0)" class="modal-close waves-effect btn-flat">キャンセル</a>`)
 	},
 	"answerToCard": function (event, qbool) {
 		const card = event.currentTarget.parentElement.parentElement;
 		const unrecollectedLevel = parseInt(card.dataset["unrecollect"]);
 		setTimeout(function () {
 			//Reset card
-			if (card.classList.contains("english")) {
+			if (card.classList.contains("wordcard")) {
 				if (card.dataset.hidemode === "ja") {
 					card.querySelector(".ankibench-card-answer").classList.add("hidden");
 					card.querySelector(".ankibench-card-answer").classList.remove("show");
