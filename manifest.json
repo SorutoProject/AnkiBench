@@ -1,6 +1,6 @@
 {
     "name": "AnkiBench",
-    "short_name": "ABench",
+    "short_name": "AnkiBench",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#fff",
