@@ -1,0 +1,33 @@
+{
+    "name": "AnkiBench",
+    "short_name": "ABench",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#fff",
+    "description": "The new way of memorization.",
+    "icons": [{
+      "src": "../img/Assets.xcassets/AppIcon.appiconset/48.png",
+      "sizes": "48x48",
+      "type": "image/png"
+    }, {
+      "src": "../img/Assets.xcassets/AppIcon.appiconset/72.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    }, {
+      "src": "../img/Assets.xcassets/AppIcon.appiconset/100.png",
+      "sizes": "100x100",
+      "type": "image/png"
+    }, {
+      "src": "../img/Assets.xcassets/AppIcon.appiconset/144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    }, {
+      "src": "../img/Assets.xcassets/AppIcon.appiconset/167.png",
+      "sizes": "167x167",
+      "type": "image/png"
+    }, {
+      "src": "../img/Assets.xcassets/AppIcon.appiconset/196.png",
+      "sizes": "196x196",
+      "type": "image/png"
+    }]
+  }
