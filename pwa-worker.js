@@ -2,7 +2,8 @@
 var CACHE_NAME = 'ankibench-offline-caches';
 var urlsToCache = [
     "img/",
-    "component/"
+    "component/",
+    "index.html"
 ];
 
 const CACHE_KEYS = [
