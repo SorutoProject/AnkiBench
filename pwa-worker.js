@@ -1,8 +1,15 @@
 // Assign Cache
 var CACHE_NAME = 'ankibench-offline-caches';
 var urlsToCache = [
-    "img/",
-    "component/",
+    "img/ankibench.svg",
+    "component/ankibench/ankibench.css",
+    "component/ankibench/ankibench.js",
+    "component/material-icons/css/baseline.css",
+    "component/material-icons/font/MaterialIcons.ttf",
+    "component/materialize/materialize.min.css",
+    "component/materialize/materialize.min.js",
+    "component/pagejs/page.js",
+    "component/svgjs/svg.min.js",
     "index.html"
 ];
 
