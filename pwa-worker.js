@@ -8,7 +8,6 @@ var urlsToCache = [
     "component/material-icons/font/MaterialIcons.ttf",
     "component/materialize/materialize.min.css",
     "component/materialize/materialize.min.js",
-    "component/pagejs/page.js",
     "component/svgjs/svg.min.js",
     "index.html"
 ];

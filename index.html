@@ -20,9 +20,9 @@
     <!--PWA-->
     <link rel="manifest" href="manifest.json">
     <script>
-        if("serviceWorker" in navigator){
-            navigator.serviceWorker.register("pwa-worker.js").catch(function(e){
-                console.error("ServiceWorker registration failed:" ,e);
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("pwa-worker.js").catch(function (e) {
+                console.error("ServiceWorker registration failed:", e);
             });
         }
     </script>
@@ -37,7 +37,11 @@
                 <span class="hide-on-med-and-down black-text">AnkiBench</span>
             </span>
             <ul class="right">
-                <li><a class="dropdown-trigger black-text" data-target="dropdown-file">ファイル<i
+                <li id="back-button">
+                    <a class="black-text tooltipped waves-effect" data-position="bottom" data-tooltip="戻る"><i
+                            class="material-icons md-arrow_back"></i></a>
+                </li>
+                <li><a class="dropdown-trigger black-text no-autoinit" data-target="dropdown-file" id="file-button">ファイル<i
                             class="material-icons md-arrow_drop_down right black-text"></i></a></li>
             </ul>
         </div>
@@ -78,21 +82,47 @@
                 <div style="text-align: center;padding-top:10px;">右上の「ファイル」からAnkiBenchファイルを開くか、右下の「+」から、新しい単元を追加してください。
                 </div>
 
-                <div class="fixed-action-btn tooltipped" data-position="left"
-                data-tooltip="単元の追加と削除">
+                <div class="fixed-action-btn tooltipped no-autoinit" data-position="left" data-tooltip="編集メニュー">
                     <a class="btn-floating btn-large white waves-effect">
-                        <i class="large material-icons md-menu black-text"></i>
+                        <i class="large material-icons md-edit black-text"></i>
                     </a>
                     <ul>
-                        <li class="tooltipped" data-position="left"
-                        data-tooltip="追加"><a class="btn-floating green waves-effect"><i class="material-icons md-plus"></i></a></li>
-                        <li class="tooltipped waves-effect" data-position="left"
-                        data-tooltip="削除"><a class="btn-floating blue waves-effect"><i class="material-icons md-delete"></i></a></li>
-                        
+                        <li class="tooltipped" data-position="left" data-tooltip="プロパティ"><a
+                                class="btn-floating white waves-effect" onclick="ankiBench.changeView('properties');"><i
+                                    class="material-icons md-info black-text"></i></a></li>
+                        <li class="tooltipped" data-position="left" data-tooltip="入れ替え"><a
+                                class="btn-floating white waves-effect"><i
+                                    class="material-icons md-list black-text"></i></a></li>
+                        <li class="tooltipped" data-position="left" data-tooltip="追加"><a
+                                class="btn-floating white waves-effect"><i
+                                    class="material-icons md-plus black-text"></i></a></li>
+                        <li class="tooltipped" data-position="left" data-tooltip="削除"><a
+                                class="btn-floating white waves-effect"><i
+                                    class="material-icons md-delete black-text"></i></a></li>
+
                     </ul>
                 </div>
             </div>
-            <div id="learn"></div>
+            <div id="learn">
+
+            </div>
+            <div id="properties">
+                <h5>プロパティ</h5>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input value="" id="pro-title" type="text">
+                        <label class="active" for="pro-title">ドキュメントのタイトル</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <input value="" id="pro-author" type="text">
+                        <label class="active" for="pro-author">作成者名</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <textarea id="pro-description" class="materialize-textarea"></textarea>
+                        <label for="pro-description">説明（複数行入力可）</label>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 </body>

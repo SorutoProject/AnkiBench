@@ -1,3 +1,19 @@
+*:focus {
+    outline: none;
+}
+html,body{
+    min-height:100%;
+}
+a {
+    -webkit-tap-highlight-color:rgba(0,0,0,0);
+    cursor:pointer;
+}
+body{
+    user-select: none;
+}
+input[type="text"]{
+    user-select: auto;
+}
 .nav-wrapper .brand-logo img {
     height: 56px;
     vertical-align: middle;
