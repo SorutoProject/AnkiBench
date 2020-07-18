@@ -1,4 +1,4 @@
-// Assign Cache
+/*// Assign Cache
 var CACHE_NAME = 'ankibench-offline-caches';
 var urlsToCache = [
     "img/ankibench.svg",
@@ -107,4 +107,8 @@ self.addEventListener('activate', event => {
             );
         })
     );
+});
+*/
+self.addEventListener("fetch",function(){
+	
 });
