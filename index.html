@@ -32,15 +32,18 @@
 <body>
     <nav class="white">
         <div class="nav-wrapper">
-            <span class="brand-logo left">
-                <img src="img/ankibench.svg">
-                <span class="hide-on-med-and-down black-text">AnkiBench</span>
-            </span>
-            <ul class="right">
+            <ul class="left">
                 <li id="back-button">
                     <a class="black-text tooltipped waves-effect" data-position="bottom" data-tooltip="戻る"><i
                             class="material-icons md-arrow_back"></i></a>
                 </li>
+            </ul>
+            <span class="brand-logo waves-effect" onclick="ankiBench.changeView('about');" >
+                <img src="img/ankibench.svg" class="hide-on-med-and-down">
+                <span class="black-text">AnkiBench</span>
+            </span>
+            <ul class="right">
+                
                 <li><a class="dropdown-trigger black-text no-autoinit" data-target="dropdown-file" id="file-button">ファイル<i
                             class="material-icons md-arrow_drop_down right black-text"></i></a></li>
             </ul>
@@ -79,12 +82,12 @@
                         </div>
                     </li>
                 </ul>-->
-                <div style="text-align: center;padding-top:10px;">右上の「ファイル」からAnkiBenchファイルを開くか、右下の「+」から、新しい単元を追加してください。
+                <div id="home-list" style="text-align: center;padding-top:10px;">右上の「ファイル」からAnkiBenchファイルを開くか、右下の「+」から、新しい単元を追加してください。
                 </div>
 
                 <div class="fixed-action-btn tooltipped no-autoinit" data-position="left" data-tooltip="編集メニュー">
                     <a class="btn-floating btn-large white waves-effect">
-                        <i class="large material-icons md-edit black-text"></i>
+                        <i class="large material-icons md-menu black-text"></i>
                     </a>
                     <ul>
                         <li class="tooltipped" data-position="left" data-tooltip="プロパティ"><a
@@ -93,10 +96,10 @@
                         <li class="tooltipped" data-position="left" data-tooltip="入れ替え"><a
                                 class="btn-floating white waves-effect"><i
                                     class="material-icons md-list black-text"></i></a></li>
-                        <li class="tooltipped" data-position="left" data-tooltip="追加"><a
-                                class="btn-floating white waves-effect"><i
+                        <li class="tooltipped" data-position="left" data-tooltip="単元を作成"><a
+                                class="btn-floating white waves-effect" onclick="ankiBench.edit.add();"><i
                                     class="material-icons md-plus black-text"></i></a></li>
-                        <li class="tooltipped" data-position="left" data-tooltip="削除"><a
+                        <li class="tooltipped" data-position="left" data-tooltip="単元を削除"><a
                                 class="btn-floating white waves-effect"><i
                                     class="material-icons md-delete black-text"></i></a></li>
 
@@ -122,6 +125,13 @@
                         <label for="pro-description">説明（複数行入力可）</label>
                     </div>
                 </div>
+            </div>
+            <div id="about">
+                <h5>このアプリについて</h5>
+                <p><img src="img/ankibench.svg" style="vertical-align: middle;height:48px"> <b>AnkiBench</b></p>
+                <p>Let's memorize anywhere.</p>
+                <p>このアプリケーションは、ブラウザ上で動作するため、最新のブラウザが利用できるすべての端末からご利用いただけます。</p>
+                <p>&copy;2020 Soruto Project.</p>
             </div>
         </div>
     </main>

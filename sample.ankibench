@@ -1,5 +1,9 @@
 {
-    "properties":{
-        "ab_version":1.0
-    }
-}
+    "properties": {
+      "title": "テスト",
+      "description": "テスト",
+      "author": "サトケイ",
+      "updateDate": "2020/07/18"
+    },
+    "data": []
+  }
