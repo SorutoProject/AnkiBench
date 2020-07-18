@@ -10,6 +10,7 @@ a {
 }
 body{
     user-select: none;
+    overflow: hidden;
 }
 nav{
     height:64px;
@@ -32,8 +33,15 @@ input[type="text"]{
     font-size:14pt;
 }
 
+.collection{
+    border:none;
+}
 .collection-item{
     list-style-type:none;
+}
+
+.collection-item .row{
+    margin-bottom: auto;
 }
 
 #pages{
@@ -48,6 +56,7 @@ input[type="text"]{
     left:0;
     width:100%;
     padding:0 5px;
+    background:#fff;
 }
 #pages > div.inView{
     animation-name:inView;
