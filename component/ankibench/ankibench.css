@@ -31,6 +31,11 @@ input[type="text"]{
 .nav-wrapper .brand-logo{
     font-size:14pt;
 }
+
+.collection-item{
+    list-style-type:none;
+}
+
 #pages{
     position: relative;
     width:100%;
