@@ -1,9 +1,34 @@
 {
-    "properties": {
-      "title": "テスト",
-      "description": "テスト",
-      "author": "サトケイ",
-      "updateDate": "2020/07/18"
+  "properties": {
+    "title": "Sample",
+    "description": "",
+    "author": "",
+    "updateDate": ""
+  },
+  "data": [
+    {
+      "name": "ea",
+      "cards": []
     },
-    "data": []
-  }
+    {
+      "name": "a",
+      "cards": []
+    },
+    {
+      "name": "ewdsadsfs",
+      "cards": []
+    },
+    {
+      "name": "afad",
+      "cards": []
+    },
+    {
+      "name": "dsvsDc",
+      "cards": []
+    },
+    {
+      "name": "aerfd",
+      "cards": []
+    }
+  ]
+}
