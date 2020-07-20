@@ -39,6 +39,7 @@ const ankiBench = {
             inViewElem.classList.add("active-view");
             setTimeout(function(){
                 inViewElem.classList.remove("inView");
+                inViewElem.style.display = "block";
             },300);
         }else{
             throw view + " is not found.";
@@ -52,6 +53,19 @@ const ankiBench = {
 
         if(view === "home") document.getElementById("back-button").style.display = "none";
         else document.getElementById("back-button").style.display = "list-item";
+    },
+    newFile:function(){
+        if(confirm("新規作成すると、現在使用しているドキュメントのデータは削除されます。\n新規作成する前に必要な場合はドキュメントを保存してください。\n新規作成しますか？")){
+            ankiBench.userData = ankiBench.defaultUserData;
+            document.getElementById("home-list").outerHTML = `<div id="home-list" style="text-align:center;padding-top:10px;">単元データがありません。右下のボタンから新しい単元を作成しましょう。</div>`;
+            document.getElementById("pro-title").value = "";
+            document.getElementById("pro-author").value = "";
+            document.getElementById("pro-description").value = "";
+            M.updateTextFields();
+            M.toast({
+                html:"新規作成を実行しました。"
+            });
+        }
     },
     edit:{
         add: function(){
@@ -92,6 +106,15 @@ const ankiBench = {
             "updateDate":""
         },
         "data":[]
+    },
+    defaultUserData:{
+        "properties":{
+            "title":"",
+            "description":"",
+            "author":"",
+            "updateDate":""
+        },
+        "data":[]
     }
 
 }
@@ -119,6 +142,7 @@ window.onpopstate = function(e){
         inViewElem.style.display = "block";
         setTimeout(function(){
             inViewElem.classList.remove("inViewBack");
+            inViewElem.style.display = "block";
         },300);
 
         document.querySelector(`#pages > div#${view}`).style.display = "block";
@@ -161,6 +185,9 @@ document.addEventListener("DOMContentLoaded", function () {
     //ankibench init
 
     //addEvents
+    document.getElementById("file-newfile").addEventListener("click", function(){
+        ankiBench.newFile();
+    });
     document.getElementById("file-open").addEventListener("click", function () {
         document.getElementById("file-selector").click();
     });
@@ -176,7 +203,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById("pro-description").value = ankiBench.userData.properties.description;
                 M.updateTextFields();
                 if(ankiBench.userData.data.length === 0){
-                    document.getElementById("home-list").textContent = "単元データがありません。右下のボタンから新しい単元を作成しましょう。";
+                    document.getElementById("home-list").outerHTML = `<div id="home-list" style="text-align:center;padding-top:10px;">単元データがありません。右下のボタンから新しい単元を作成しましょう。</div>`;
                 }
 
                 M.toast({
