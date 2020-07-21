@@ -16,6 +16,7 @@
     <!--load JavaScript Files-->
     <script src="component/svgjs/svg.min.js"></script>
     <script src="component/materialize/materialize.min.js"></script>
+    <script src="component/sortable/Sortable.min.js"></script>
     <script src="component/ankibench/ankibench.js"></script>
 
     <!--PWA-->
@@ -84,8 +85,9 @@
                         </div>
                     </li>
                 </ul>-->
-                <div id="home-list" style="text-align: center;padding-top:10px;">右上の「ファイル」からAnkiBenchファイルを開くか、右下の［三］ボタンから、新しい単元を追加してください。
-                </div>
+                <ul class="collection" id="home-list" style="text-align: center;padding-top:10px;" data-listed="false">
+                    <li class="collection-item">右上の「ファイル」からAnkiBenchファイルを開くか、右下の［三］ボタンから、新しい単元を追加してください。</li>
+                </ul>
 
                 <div style="height:50px"></div>
 

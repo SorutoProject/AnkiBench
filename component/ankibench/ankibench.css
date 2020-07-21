@@ -121,3 +121,7 @@ input[type="text"]{
      left:10px;  
     }
 }
+
+.drag-handle{
+    cursor:move;
+}

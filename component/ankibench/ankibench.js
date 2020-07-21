@@ -53,11 +53,14 @@ const ankiBench = {
 
         if(view === "home") document.getElementById("back-button").style.display = "none";
         else document.getElementById("back-button").style.display = "list-item";
+        
+        ankiBench.closeAllTooltip();
     },
     newFile:function(){
         if(confirm("新規作成すると、現在使用しているドキュメントのデータは削除されます。\n新規作成する前に必要な場合はドキュメントを保存してください。\n新規作成しますか？")){
             ankiBench.userData = ankiBench.defaultUserData;
-            document.getElementById("home-list").outerHTML = `<div id="home-list" style="text-align:center;padding-top:10px;">単元データがありません。右下のボタンから新しい単元を作成しましょう。</div>`;
+            document.getElementById("home-list").innerHTML = `単元データがありません。右下のボタンから新しい単元を作成しましょう。`;
+            document.getElementById("home-list").dataset.listed = "false";
             document.getElementById("pro-title").value = "";
             document.getElementById("pro-author").value = "";
             document.getElementById("pro-description").value = "";
@@ -68,7 +71,7 @@ const ankiBench = {
         }
     },
     edit:{
-        add: function(){
+        add: function(name){
             const newName = prompt("作成する単元の名前を入力してください");
             if(newName !== null && newName !== ""){
                 ankiBench.userData.data.push({
@@ -78,14 +81,14 @@ const ankiBench = {
 
                 
                 let homeList = document.querySelector("#home-list");
-                if(!homeList.classList.contains("collection")){
-                    homeList.outerHTML = `<ui id="home-list" class="collection"></ui>`;
-                    homeList = document.querySelector("#home-list");
+                if(homeList.dataset.listed === "false"){
+                    homeList.innerHTML = "";
+                    homeList.dataset.listed = "true";
                 }
 
                 const newItem = document.createElement("li");
                 newItem.classList.add("collection-item");
-                newItem.innerHTML = `<div class="row"><span class="col s8 l10">${newName}</span><span class="col s2 l1 btn-flat waves-effect center-align"><i class="material-icons md-play_arrow"></i></span><span class="col s2 l1 btn-flat waves-effect center-align"><i class="material-icons md-edit"></i></span></div>`;
+                newItem.innerHTML = `<div class="row"><span class="col s1 center-align drag-handle"><i class="material-icons md-drag_handle"></i></span><span class="col s7 l9 left-align">${newName}</span><span class="col s2 l1 waves-effect center-align"><i class="material-icons md-play_arrow"></i></span><span class="col s2 l1 waves-effect center-align"><i class="material-icons md-edit"></i></span></div>`;
                 newItem.dataset["id"] = newName;
                 homeList.appendChild(newItem);
             }else{
@@ -115,7 +118,14 @@ const ankiBench = {
             "updateDate":""
         },
         "data":[]
-    }
+    },
+    //すべてのtooltipを隠す
+    closeAllTooltip:function(){
+        const allTooltipElem = document.querySelectorAll(".tooltipped").forEach(function(elem){
+            M.Tooltip.getInstance(elem).close();
+        });
+    },
+    sortable:null
 
 }
 
@@ -151,6 +161,8 @@ window.onpopstate = function(e){
     }else{
         throw view + " is not found.";
     }
+
+    ankiBench.closeAllTooltip();
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -169,6 +181,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //Materialize will be Initialized here
     M.AutoInit();
+
+    //Initialize SortableJS
+    ankiBench.sortable = new Sortable(document.getElementById("home-list"),{
+        handle:".drag-handle",
+        animation:150
+    });
 
     //Floating Buttons
     const FloatingActionButton = document.querySelector(".fixed-action-btn");
@@ -203,7 +221,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById("pro-description").value = ankiBench.userData.properties.description;
                 M.updateTextFields();
                 if(ankiBench.userData.data.length === 0){
-                    document.getElementById("home-list").outerHTML = `<div id="home-list" style="text-align:center;padding-top:10px;">単元データがありません。右下のボタンから新しい単元を作成しましょう。</div>`;
+                    document.getElementById("home-list").innerHTML = `単元データがありません。右下のボタンから新しい単元を作成しましょう。`;
+                    document.getElementById("home-list").dataset.listed = "false";
                 }
 
                 M.toast({
