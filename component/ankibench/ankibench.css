@@ -84,6 +84,10 @@ input[type="text"]{
     animation-duration: 0.3s;
 }
 
+/*prevent #add-modal from shrinked*/
+#add-modal{
+    max-height:90% !important;
+}
 
 /*change view animations*/
 @keyframes inView{
