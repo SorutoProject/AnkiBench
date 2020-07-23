@@ -78,6 +78,7 @@ input[type="text"]{
     animation-duration: 0.3s;
 }
 
+
 /*change view animations*/
 @keyframes inView{
     0%{

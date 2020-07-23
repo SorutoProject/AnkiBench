@@ -2,76 +2,103 @@
 <html lang="ja">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#ffffff">
-    <title>AnkiBench</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="theme-color" content="#ffffff">
+	<title>AnkiBench</title>
 
-    <link rel="icon" href="img/ankibench.svg" type="image/svg+xml">
+	<link rel="icon" href="img/ankibench.svg" type="image/svg+xml">
 
-    <!--stylesheets-->
-    <link rel="stylesheet" href="component/ankibench/ankibench.css">
-    <link rel="stylesheet" href="component/materialize/materialize.min.css">
-    <link rel="stylesheet" href="component/material-icons/css/baseline.css">
-    <!--load JavaScript Files-->
-    <script src="component/svgjs/svg.min.js"></script>
-    <script src="component/materialize/materialize.min.js"></script>
-    <script src="component/sortable/Sortable.min.js"></script>
-    <script src="component/ankibench/ankibench.js"></script>
+	<!--stylesheets-->
+	<link rel="stylesheet" href="component/ankibench/ankibench.css">
+	<link rel="stylesheet" href="component/materialize/materialize.min.css">
+	<link rel="stylesheet" href="component/material-icons/css/baseline.css">
+	<!--load JavaScript Files-->
+	<script src="component/svgjs/svg.min.js"></script>
+	<script src="component/materialize/materialize.min.js"></script>
+	<script src="component/filesaver/FileSaver.min.js"></script>
+	<script src="component/sortable/Sortable.min.js"></script>
+	<script src="component/ankibench/ankibench.js"></script>
 
-    <!--PWA-->
-    <link rel="manifest" href="manifest.json">
-    <script>
-        if ("serviceWorker" in navigator) {
-            navigator.serviceWorker.register("pwa-worker.js").catch(function (e) {
-                console.error("ServiceWorker registration failed:", e);
-            });
-        }
-    </script>
+	<!--PWA-->
+	<!--iOS-->
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="apple-mobile-web-app-title" content="AnkiBench">
+	<link rel="apple-touch-icon" href="img/Assets.xcassets/AppIcon.appiconset/152.png">
+
+	<!--chrome, firefox-->
+	<link rel="manifest" href="manifest.json">
+	<script>
+		if ("serviceWorker" in navigator) {
+			navigator.serviceWorker.register("pwa-worker.js").catch(function(e) {
+				console.error("ServiceWorker registration failed:", e);
+			});
+		}
+
+	</script>
+
+	<!--end PWA-->
 
 </head>
 
 <body>
-    <nav class="white">
-        <div class="nav-wrapper">
-            <ul class="left">
-                <li id="back-button">
-                    <a class="black-text tooltipped waves-effect" data-position="bottom" data-tooltip="戻る"><i
-                            class="material-icons md-arrow_back"></i></a>
-                </li>
-            </ul>
-            <span class="brand-logo waves-effect" onclick="ankiBench.changeView('about');" >
-                <img src="img/ankibench.svg" class="hide-on-med-and-down">
-                <span class="black-text">AnkiBench</span>
-            </span>
-            <ul class="right">
-                
-                <li><a class="dropdown-trigger black-text no-autoinit" data-target="dropdown-file" id="file-button">ファイル<i
-                            class="material-icons md-arrow_drop_down right black-text"></i></a></li>
-            </ul>
-        </div>
-    </nav>
-    <!--file dropdown-->
-    <ul id="dropdown-file" class="dropdown-content">
-        <li><a class="black-text waves-effect" id="file-newfile">新規作成</a></li>
-        <li class="divider"></li>
-        <li><a class="black-text waves-effect" id="file-open">開く</a></li>
-        <li><a class="black-text waves-effect" id="file-save">保存</a></li>
-        <!--file selector-->
-        <input type="file" accept=".ankibench" id="file-selector" style="display:none;">
-    </ul>
+	<nav class="white">
+		<div class="nav-wrapper">
+			<ul class="left">
+				<li id="back-button">
+					<a class="black-text tooltipped waves-effect" data-position="bottom" data-tooltip="戻る"><i class="material-icons md-arrow_back"></i></a>
+				</li>
+			</ul>
+			<span class="brand-logo waves-effect" onclick="ankiBench.changeView('about');">
+				<img src="img/ankibench.svg" class="hide-on-med-and-down">
+				<span class="black-text">AnkiBench</span>
+			</span>
+			<ul class="right">
 
-    <!--modal-->
-    <div id="main-modal" class="modal">
-        <div class="modal-content"></div>
-        <div class="modal-footer">
-            <a class="modal-close waves-effect btn-flat blue-text darken-1-text">閉じる</a>
-        </div>
-    </div>
-    <main>
-        <div id="pages">
-            <div id="home">
-                <!--
+				<li><a class="dropdown-trigger black-text no-autoinit" data-target="dropdown-file" id="file-button">ファイル<i class="material-icons md-arrow_drop_down right black-text"></i></a></li>
+			</ul>
+		</div>
+	</nav>
+	<!--file dropdown-->
+	<ul id="dropdown-file" class="dropdown-content">
+		<li><a class="black-text waves-effect" id="file-newfile">新規作成</a></li>
+		<li class="divider"></li>
+		<li><a class="black-text waves-effect" id="file-open">開く</a></li>
+		<li><a class="black-text waves-effect" id="file-save">保存</a></li>
+		<!--file selector-->
+		<input type="file" accept=".ankibench" id="file-selector" style="display:none;">
+	</ul>
+
+	<!--modals-->
+	<div id="main-modal" class="modal">
+		<div class="modal-content"></div>
+		<div class="modal-footer">
+			<a class="modal-close waves-effect btn-flat green-text darken-1-text">閉じる</a>
+		</div>
+	</div>
+
+	<div id="add-modal" class="modal">
+		<div class="modal-content">
+			<b>新しい単元の作成</b><p>
+			作成する単元の名前を入力して、「作成」ボタンをクリックしてください。</p>
+			<div class="input-field">
+				<input id="add-modal-input" type="text" class="validate">
+				<label for="add-modal-input">作成する単元の名前</label>
+				
+			</div>
+		</div>
+		<div class="modal-footer">
+			<a class="modal-close waves-effect btn-flat green-text darken-1-text" id="add-modal-make-button">作成</a>
+			<a class="modal-close waves-effect btn-flat green-text darken-1-text">キャンセル</a>
+		</div>
+	</div>
+
+	<!--pages-->
+	<main>
+		<div id="pages">
+			<div id="home">
+				<!--
                 <ul class="collapsible">
                     <li>
                         <div class="collapsible-header">
@@ -85,62 +112,50 @@
                         </div>
                     </li>
                 </ul>-->
-                <ul class="collection" id="home-list" style="text-align: center;padding-top:10px;" data-listed="false">
-                    <li class="collection-item">右上の「ファイル」からAnkiBenchファイルを開くか、右下の［三］ボタンから、新しい単元を追加してください。</li>
-                </ul>
+				<ul class="collection" id="home-list" style="text-align: center;padding-top:10px;" data-listed="false">
+					<li class="collection-item">右上の「ファイル」からAnkiBenchファイルを開くか、下のボタンから、新しい単元を追加してください。</li>
+				</ul>
+				<button id="home-pro-button" class="btn-flat waves-effect"><i class="material-icons md-info left"></i><span>ドキュメントのプロパティ</span></button>
+				<div style="height:50px"></div>
 
-                <div style="height:50px"></div>
+				<div class="fixed-action-btn tooltipped no-autoinit" data-position="left" data-tooltip="単元を追加" id="add-button">
+					<a class="btn-floating btn-large white waves-effect">
+						<i class="material-icons md-plus black-text"></i>
+					</a>
+				</div>
+			</div>
+			<div id="learn">
 
-                <div class="fixed-action-btn tooltipped no-autoinit" data-position="left" data-tooltip="編集メニュー">
-                    <a class="btn-floating btn-large white waves-effect">
-                        <i class="large material-icons md-menu black-text"></i>
-                    </a>
-                    <ul>
-                        <li class="tooltipped" data-position="left" data-tooltip="プロパティ"><a
-                                class="btn-floating white waves-effect" onclick="ankiBench.changeView('properties');"><i
-                                    class="material-icons md-info black-text"></i></a></li>
-                        <li class="tooltipped" data-position="left" data-tooltip="入れ替え"><a
-                                class="btn-floating white waves-effect"><i
-                                    class="material-icons md-list black-text"></i></a></li>
-                        <li class="tooltipped" data-position="left" data-tooltip="単元を作成"><a
-                                class="btn-floating white waves-effect" onclick="ankiBench.edit.add();"><i
-                                    class="material-icons md-plus black-text"></i></a></li>
-                        <li class="tooltipped" data-position="left" data-tooltip="単元を削除"><a
-                                class="btn-floating white waves-effect"><i
-                                    class="material-icons md-delete black-text"></i></a></li>
+			</div>
+			<div id="edit">
 
-                    </ul>
-                </div>
-            </div>
-            <div id="learn">
-
-            </div>
-            <div id="properties">
-                <h5>プロパティ</h5>
-                <div class="row">
-                    <div class="input-field col s12">
-                        <input value="" id="pro-title" type="text">
-                        <label class="active" for="pro-title">ドキュメントのタイトル</label>
-                    </div>
-                    <div class="input-field col s12">
-                        <input value="" id="pro-author" type="text">
-                        <label class="active" for="pro-author">作成者名</label>
-                    </div>
-                    <div class="input-field col s12">
-                        <textarea id="pro-description" class="materialize-textarea"></textarea>
-                        <label for="pro-description">説明（複数行入力可）</label>
-                    </div>
-                </div>
-            </div>
-            <div id="about">
-                <h5>このアプリについて</h5>
-                <p><img src="img/ankibench.svg" style="vertical-align: middle;height:48px"> <b>AnkiBench</b></p>
-                <p>Let's memorize anywhere.</p>
-                <p>このアプリケーションは、ブラウザ上で動作するため、最新のブラウザが利用できるすべての端末からご利用いただけます。</p>
-                <p>&copy;2020 Soruto Project.</p>
-            </div>
-        </div>
-    </main>
+			</div>
+			<div id="properties">
+				<h5>プロパティ</h5>
+				<div class="row">
+					<div class="input-field col s12">
+						<input value="" id="pro-title" type="text">
+						<label class="active" for="pro-title">ドキュメントのタイトル</label>
+					</div>
+					<div class="input-field col s12">
+						<input value="" id="pro-author" type="text">
+						<label class="active" for="pro-author">作成者名</label>
+					</div>
+					<div class="input-field col s12">
+						<textarea id="pro-description" class="materialize-textarea"></textarea>
+						<label for="pro-description">説明（複数行入力可）</label>
+					</div>
+				</div>
+			</div>
+			<div id="about">
+				<h5>このアプリについて</h5>
+				<p><img src="img/ankibench.svg" style="vertical-align: middle;height:48px"> <b>AnkiBench</b></p>
+				<p>Let's memorize anywhere.</p>
+				<p>このアプリケーションは、ブラウザ上で動作するため、最新のブラウザが利用できるすべての端末からご利用いただけます。</p>
+				<p>&copy;2020 Soruto Project.</p>
+			</div>
+		</div>
+	</main>
 </body>
 
 </html>
