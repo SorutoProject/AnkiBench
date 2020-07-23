@@ -31,7 +31,7 @@
 	<link rel="manifest" href="manifest.json">
 	<script>
 		if ("serviceWorker" in navigator) {
-			navigator.serviceWorker.register("pwa-worker.js").catch(function(e) {
+			navigator.serviceWorker.register("pwa-worker.js").catch(function (e) {
 				console.error("ServiceWorker registration failed:", e);
 			});
 		}
@@ -43,11 +43,12 @@
 </head>
 
 <body>
-	<nav class="white">
-		<div class="nav-wrapper">
+	<nav class="white row">
+		<div class="nav-wrapper col s12 l6 offset-l3">
 			<ul class="left">
 				<li id="back-button">
-					<a class="black-text tooltipped waves-effect" data-position="bottom" data-tooltip="戻る"><i class="material-icons md-arrow_back"></i></a>
+					<a class="black-text tooltipped waves-effect" data-position="bottom" data-tooltip="戻る"><i
+							class="material-icons md-arrow_back"></i></a>
 				</li>
 			</ul>
 			<span class="brand-logo waves-effect" onclick="ankiBench.changeView('about');">
@@ -56,7 +57,8 @@
 			</span>
 			<ul class="right">
 
-				<li><a class="dropdown-trigger black-text no-autoinit" data-target="dropdown-file" id="file-button">ファイル<i class="material-icons md-arrow_drop_down right black-text"></i></a></li>
+				<li><a class="dropdown-trigger black-text no-autoinit" data-target="dropdown-file"
+						id="file-button">ファイル<i class="material-icons md-arrow_drop_down right black-text"></i></a></li>
 			</ul>
 		</div>
 	</nav>
@@ -78,27 +80,29 @@
 		</div>
 	</div>
 
-	<div id="add-modal" class="modal">
-		<div class="modal-content">
-			<b>新しい単元の作成</b><p>
-			作成する単元の名前を入力して、「作成」ボタンをクリックしてください。</p>
+	<div id="add-modal" class="modal bottom-sheet row">
+		<div class="modal-content col s12 l6 offset-l3">
+			<b>新しい単元の作成</b>
+			<p>
+				作成する単元の名前を入力して、「作成」ボタンをクリックしてください。</p>
 			<div class="input-field">
 				<input id="add-modal-input" type="text" class="validate">
 				<label for="add-modal-input">作成する単元の名前</label>
-				
+
 			</div>
 		</div>
-		<div class="modal-footer">
+		<div class="modal-footer col s12 l6 offset-l3">
 			<a class="modal-close waves-effect btn-flat green-text darken-1-text" id="add-modal-make-button">作成</a>
 			<a class="modal-close waves-effect btn-flat green-text darken-1-text">キャンセル</a>
 		</div>
 	</div>
 
 	<!--pages-->
-	<main>
-		<div id="pages">
-			<div id="home">
-				<!--
+	<div class="row">
+		<main class="col s12 l6 offset-l3">
+			<div id="pages">
+				<div id="home">
+					<!--
                 <ul class="collapsible">
                     <li>
                         <div class="collapsible-header">
@@ -112,50 +116,58 @@
                         </div>
                     </li>
                 </ul>-->
-				<ul class="collection" id="home-list" style="text-align: center;padding-top:10px;" data-listed="false">
-					<li class="collection-item">右上の「ファイル」からAnkiBenchファイルを開くか、下のボタンから、新しい単元を追加してください。</li>
-				</ul>
-				<button id="home-pro-button" class="btn-flat waves-effect"><i class="material-icons md-info left"></i><span>ドキュメントのプロパティ</span></button>
-				<div style="height:50px"></div>
+					<ul class="collection" id="home-list" style="text-align: center;padding-top:10px;"
+						data-listed="false">
+						<li class="collection-item">右上の「ファイル」からAnkiBenchファイルを開くか、下のボタンから、新しい単元を追加してください。</li>
+					</ul>
 
-				<div class="fixed-action-btn tooltipped no-autoinit" data-position="left" data-tooltip="単元を追加" id="add-button">
-					<a class="btn-floating btn-large white waves-effect">
-						<i class="material-icons md-plus black-text"></i>
-					</a>
-				</div>
-			</div>
-			<div id="learn">
+					<button class="btn-flat waves-effect" onclick="ankiBench.edit.add();"><i
+						class="material-icons md-plus left hide-on-med-and-down"></i><span>単元を追加</span></button>
+					<button id="home-pro-button" class="btn-flat waves-effect"><i
+							class="material-icons md-info left"></i><span>ドキュメントのプロパティ</span></button>
+					
+					<div style="height:50px"></div>
 
-			</div>
-			<div id="edit">
-
-			</div>
-			<div id="properties">
-				<h5>プロパティ</h5>
-				<div class="row">
-					<div class="input-field col s12">
-						<input value="" id="pro-title" type="text">
-						<label class="active" for="pro-title">ドキュメントのタイトル</label>
-					</div>
-					<div class="input-field col s12">
-						<input value="" id="pro-author" type="text">
-						<label class="active" for="pro-author">作成者名</label>
-					</div>
-					<div class="input-field col s12">
-						<textarea id="pro-description" class="materialize-textarea"></textarea>
-						<label for="pro-description">説明（複数行入力可）</label>
+					<div class="fixed-action-btn tooltipped no-autoinit" data-position="left" data-tooltip="単元を追加"
+						id="add-button">
+						<a class="btn-floating btn-large white waves-effect">
+							<i class="material-icons md-plus black-text"></i>
+						</a>
 					</div>
 				</div>
+				<div id="learn">
+
+				</div>
+				<div id="edit">
+
+				</div>
+				<div id="properties">
+					<h5>プロパティ</h5>
+					<div class="row">
+						<div class="input-field col s12">
+							<input value="" id="pro-title" type="text">
+							<label class="active" for="pro-title">ドキュメントのタイトル</label>
+						</div>
+						<div class="input-field col s12">
+							<input value="" id="pro-author" type="text">
+							<label class="active" for="pro-author">作成者名</label>
+						</div>
+						<div class="input-field col s12">
+							<textarea id="pro-description" class="materialize-textarea"></textarea>
+							<label for="pro-description">説明（複数行入力可）</label>
+						</div>
+					</div>
+				</div>
+				<div id="about">
+					<h5>このアプリについて</h5>
+					<p><img src="img/ankibench.svg" style="vertical-align: middle;height:48px"> <b>AnkiBench</b></p>
+					<p>Let's memorize anywhere.</p>
+					<p>このアプリケーションは、ブラウザ上で動作するため、最新のブラウザが利用できるすべての端末からご利用いただけます。</p>
+					<p>&copy;2020 Soruto Project.</p>
+				</div>
 			</div>
-			<div id="about">
-				<h5>このアプリについて</h5>
-				<p><img src="img/ankibench.svg" style="vertical-align: middle;height:48px"> <b>AnkiBench</b></p>
-				<p>Let's memorize anywhere.</p>
-				<p>このアプリケーションは、ブラウザ上で動作するため、最新のブラウザが利用できるすべての端末からご利用いただけます。</p>
-				<p>&copy;2020 Soruto Project.</p>
-			</div>
-		</div>
-	</main>
+		</main>
+	</div>
 </body>
 
 </html>
