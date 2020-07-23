@@ -41,6 +41,9 @@ input[type="text"]{
 .collection{
     border:none;
 }
+.collection[data-listed="false"]{
+    border:none;
+}
 .collection-item{
     list-style-type:none;
 }
