@@ -342,6 +342,15 @@ document.addEventListener("DOMContentLoaded", function () {
 				});
 			} catch (e) {
 				ankiBench.modal.alert(`<b>エラーが発生しました</b><p>.ankibenchファイルの読み込みに失敗しました。<br>ファイルが壊れている可能性があります。</p><p>詳細情報:<br>${e}</p>`);
+				//ankiBench.userDataを初期状態に戻す
+				ankiBench.userData = ankiBench.defaultUserData;
+
+				document.getElementById("pro-title").value = "";
+				document.getElementById("pro-author").value = "";
+				document.getElementById("pro-description").value = "";
+
+				document.getElementById("home-list").innerHTML = `<li class="collection-item">単元データがありません。下のボタンから新しい単元を作成しましょう。</li>`;
+				document.getElementById("home-list").dataset.listed = "false";
 			}
 		}
 		reader.readAsText(e.target.files[0]);
