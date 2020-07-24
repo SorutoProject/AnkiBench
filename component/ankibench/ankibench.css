@@ -52,6 +52,19 @@ input[type="text"]{
     margin-bottom: auto;
 }
 
+/*単元リストのアイコンの設定*/
+#home-list i.material-icons{
+    transition-duration: 0.15s;
+}
+
+#home-list i.material-icons:active, #home-list i.material-icons:hover{
+    color:rgb(45, 185, 138);
+}
+
+#home-list i.material-icons.ankibench-delete:active, #home-list i.material-icons.ankibench-delete:hover{
+    color:rgb(255, 0, 0);
+}
+
 #pages{
     position: relative;
     width:100%;
