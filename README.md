@@ -19,6 +19,9 @@ AnkiBenchをベースとして作成されたソフトウェアのソースコ�
 * FileSaver(MIT Licensed)
     * [HomePage](https://eligrey.com/blog/saving-generated-files-on-the-client-side/)
     * [GitHub](https://github.com/eligrey/FileSaver.js)
+* Katex(MIT License)
+    * [HomePage](https://katex.org/)
+    * [GitHub](https://github.com/KaTeX/KaTeX)
 * Material Icons(by Google, Apache version 2.0 Licensed.)
     * **AnkiBench** uses the updated icon font which is avaliable at https://github.com/material-icons/material-icons-font
 * Sortable(MIT Licensed)
