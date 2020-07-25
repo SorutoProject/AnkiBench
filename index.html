@@ -13,11 +13,15 @@
 	<link rel="stylesheet" href="component/ankibench/ankibench.css">
 	<link rel="stylesheet" href="component/materialize/materialize.min.css">
 	<link rel="stylesheet" href="component/material-icons/css/baseline.css">
+	<link rel="stylesheet" href="component/katex/katex.min.css">
 	<!--load JavaScript Files-->
 	<script src="component/svgjs/svg.min.js"></script>
 	<script src="component/materialize/materialize.min.js"></script>
 	<script src="component/filesaver/FileSaver.min.js"></script>
 	<script src="component/sortable/Sortable.min.js"></script>
+	<script src="component/katex/katex.min.js"></script>
+	<script src="component/katex/auto-render.min.js"></script>
+	<script src="component/katex/mhchem.min.js"></script>
 	<script src="component/ankibench/ankibench.js"></script>
 
 	<!--PWA-->
@@ -68,6 +72,8 @@
 		<li class="divider"></li>
 		<li><a class="black-text waves-effect" id="file-open">開く</a></li>
 		<li><a class="black-text waves-effect" id="file-save">保存</a></li>
+		<li class="divider"></li>
+		<li><a class="black-text waves-effect" href="./xlsx-to-ankibench/index.html" target="_blank">XLSXを変換</a></li>
 		<!--file selector-->
 		<input type="file" accept=".ankibench" id="file-selector" style="display:none;">
 	</ul>
@@ -93,6 +99,44 @@
 		</div>
 		<div class="modal-footer col s12 l8 xl6 offset-l2 offset-xl3">
 			<a class="modal-close waves-effect btn-flat green-text darken-1-text" id="add-modal-make-button">作成</a>
+			<a class="modal-close waves-effect btn-flat green-text darken-1-text">キャンセル</a>
+		</div>
+	</div>
+	<div id="load-modal" class="modal center-align row no-autoinit">
+		<span class="col s12">読み込み中...</span>
+		<div class="progress col s12">
+			<div class="indeterminate"></div>
+		</div>
+	</div>
+	<div id="play-modal" class="modal">
+		<div class="modal-content">
+			<b>学習設定</b>
+			<p>単元名<br><b><span id="play-modal-unit-name"></span></b></p>
+			<div class="row">
+				<form id="play-modal-qaaq">
+				<p class="col s12">
+					<label>
+						<input class="with-gap" name="play-modal-qaaq-item" type="radio" value="qa" />
+						<span class="black-text">問題 → 答え</span>
+					</label>
+				</p>
+				<p class="col s12">
+					<label>
+						<input class="with-gap" name="play-modal-qaaq-item" type="radio" value="aq" />
+						<span class="black-text">答え → 問題</span>
+					</label>
+				</p>
+				</form>
+				<p class="col s12">
+					<label>
+						<input type="checkbox" class="filled-in" checked="checked" id="play-modal-random" />
+						<span class="black-text">ランダムに出題する</span>
+					</label>
+				</p>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<a class="modal-close waves-effect btn-flat green-text darken-1-text" id="play-modal-start-button">学習スタート</a>
 			<a class="modal-close waves-effect btn-flat green-text darken-1-text">キャンセル</a>
 		</div>
 	</div>
@@ -122,10 +166,10 @@
 					</ul>
 
 					<button class="btn-flat waves-effect hide-on-med-and-down" onclick="ankiBench.edit.add();"><i
-						class="material-icons md-plus left"></i><span>単元を追加</span></button>
+							class="material-icons md-plus left"></i><span>単元を追加</span></button>
 					<button id="home-pro-button" class="btn-flat waves-effect"><i
 							class="material-icons md-info left"></i><span>ドキュメントのプロパティ</span></button>
-					
+
 					<div style="height:50px"></div>
 
 					<div class="fixed-action-btn tooltipped no-autoinit" data-position="left" data-tooltip="単元を追加"
@@ -136,6 +180,26 @@
 					</div>
 				</div>
 				<div id="learn">
+
+					<div class="row">
+						<div class="col s12">
+							<div class="card" id="learn-card">
+								<div class="card-content">
+									<p id="learn-question">Card Title</p>
+									<p id="learn-answer">I am a very simple card. I am good at containing small bits of
+										information.
+										I am convenient because I require little markup to use effectively.</p>
+									<p id="learn-svg"></p>
+								</div>
+								<div class="card-action center-align row" id="learn-button-wrapper">
+									<span id="learn-unknow"
+										class="col s6 blue lighten-2 white-text btn-flat btn-large waves-effect waves-light">わからない</span>
+									<span id="learn-know"
+										class="col s6 pink lighten-2 white-text btn-flat btn-large waves-effect waves-light">わかる</span>
+								</div>
+							</div>
+						</div>
+					</div>
 
 				</div>
 				<div id="edit">
@@ -164,7 +228,9 @@
 					<p>ウェブブラウザで動く、暗記アプリ。</p>
 					<p>このアプリケーションは、ブラウザ上で動作するため、最新のブラウザが利用できるすべての端末からご利用いただけます。</p>
 					<p>Licensed under the <b>MIT License</b>.</p>
-					<p><a href="https://github.com/SorutoProject/AnkiBench" target="_blank" class="btn waves-effect waves-light black white-text">GitHub</a></p><p>&copy;2020 Soruto Project.</p>
+					<p><a href="https://github.com/SorutoProject/AnkiBench" target="_blank"
+							class="btn waves-effect waves-light black white-text">GitHub</a></p>
+					<p>&copy;2020 Soruto Project.</p>
 				</div>
 			</div>
 		</main>

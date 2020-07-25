@@ -55,6 +55,7 @@ input[type="text"]{
 /*単元リストのアイコンの設定*/
 #home-list i.material-icons{
     transition-duration: 0.15s;
+    cursor: pointer;
 }
 
 #home-list i.material-icons:active, #home-list i.material-icons:hover{
@@ -64,6 +65,68 @@ input[type="text"]{
 #home-list i.material-icons.ankibench-delete:active, #home-list i.material-icons.ankibench-delete:hover{
     color:rgb(255, 0, 0);
 }
+
+#learn-button-wrapper{
+    margin-left:auto !important;
+    margin-right:auto !important;
+}
+
+#learn-card{
+    transition-duration: 0.1s;
+}
+
+@keyframes know-anim{
+    20%{
+        transform:translate3d(100%, 0, 0);
+    }
+    100%{
+        transform:translate3d(0,0,0);
+    }
+}
+
+@keyframes unknow-anim{
+    20%{
+        transform:translate3d(-100%, 0, 0);
+    }
+    100%{
+        transform:translate3d(0,0,0);
+    }
+}
+
+#learn-card.know{
+    animation-name: know-anim;
+    animation-duration: 0.15s;
+}
+
+#learn-card.unknow{
+    animation-name:unknow-anim;
+    animation-duration: 0.15s;
+}
+
+#learn-card.pre-know{
+    background:#f8bbd0;
+}
+
+#learn-card.pre-unknow{
+    background: #bbdefb;
+}
+
+#learn-question{
+    font-size:14pt;
+    font-weight:bold;
+}
+
+#learn-answer{
+    padding-top:20px;
+    height:200px;
+    overflow:auto;
+}
+
+#learn-unknow, #learn-know{
+    font-size:12pt;
+}
+
+
 
 #pages{
     position: relative;
@@ -147,5 +210,5 @@ input[type="text"]{
 }
 
 .drag-handle{
-    cursor:move;
+    cursor:move !important;
 }
