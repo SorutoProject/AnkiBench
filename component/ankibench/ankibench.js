@@ -103,12 +103,12 @@ const ankiBench = {
 			document.getElementById("learn-question").textContent = ankiBench.playingData[0].q;
 
 			//答えを箇条書きにする
-			let answerText = "";
+			let answerText = `<ul class="browser-default">`;
 			ankiBench.playingData[0].a.split("||").forEach(function (item) {
-				answerText += `・ ${item}\n`;
+				answerText += `<li>${item}</li>`;
 			});
-			document.getElementById("learn-answer").textContent = answerText;
-			document.getElementById("learn-answer").innerHTML = document.getElementById("learn-answer").textContent.split("\n").join("<br>");
+			answerText+="</ul>";
+			document.getElementById("learn-answer").innerHTML = answerText;
 
 			//katexを適用
 			const katexOption = {
@@ -152,12 +152,12 @@ const ankiBench = {
 			document.getElementById("learn-question").textContent = ankiBench.playingData[0].q;
 
 			//答えを箇条書きにする
-			let answerText = "";
+			let answerText = `<ul class="browser-default">`;
 			ankiBench.playingData[0].a.split("||").forEach(function (item) {
-				answerText += `・ ${item}\n`;
+				answerText += `<li>${item}</li>`;
 			});
-			document.getElementById("learn-answer").textContent = answerText;
-			document.getElementById("learn-answer").innerHTML = document.getElementById("learn-answer").textContent.split("\n").join("<br>");
+			answerText+="</ul>";
+			document.getElementById("learn-answer").innerHTML = answerText;
 
 			//katexを適用
 			const katexOption = {
@@ -206,12 +206,12 @@ const ankiBench = {
 			document.getElementById("learn-question").textContent = ankiBench.playingData[0].q;
 
 			//答えを箇条書きにする
-			let answerText = "";
+			let answerText = `<ul class="browser-default">`;
 			ankiBench.playingData[0].a.split("||").forEach(function (item) {
-				answerText += `・ ${item}\n`;
+				answerText += `<li>${item}</li>`;
 			});
-			document.getElementById("learn-answer").textContent = answerText;
-			document.getElementById("learn-answer").innerHTML = document.getElementById("learn-answer").textContent.split("\n").join("<br>");
+			answerText+="</ul>";
+			document.getElementById("learn-answer").innerHTML = answerText;
 
 			//カードを初期化
 			card.dataset.hide = "true";
@@ -592,7 +592,8 @@ document.addEventListener("DOMContentLoaded", function () {
 	//swipe
 	//タッチデバイス向け
 
-	if (window.ontouchstart === null) {
+	
+	if (window.ontouchstart === null) {/*
 		const cardContent = document.querySelector("#learn-card .card-content");
 		const card = document.getElementById("learn-card");
 		let startX;
@@ -645,7 +646,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 				document.getElementById("learn-know").click();
 			}
-		});
+		});*/
 		//タップしたら、表示を切り替える
 		//スマホ用
 		document.getElementById("learn-card").addEventListener("touchstart", function (e) {
