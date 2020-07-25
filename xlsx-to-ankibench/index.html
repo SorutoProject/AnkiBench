@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../component/material-icons/css/baseline.css">
+    <script src="component/sheetjs/xlsx.full.min.js"></script>
+    <script src="../component/filesaver/FileSaver.min.js"></script>
+    <title>XLSXをAnkiBench形式に変換</title>
+</head>
+
+<body>
+    <style>
+        h2,
+        h3 {
+            border-bottom: 1px solid #ddd;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+        }
+    </style>
+    <h2>Excelファイル(.xlsx)をAnkiBench形式に変換する</h2>
+    <p>このページでは、Excelなどの表計算ソフトで作成したファイル(.xlsx)を、AnkiBenchで使用するファイル形式(.ankibench)に変換することができます。<br>これにより、他の暗記アプリ向けに作成したCSVファイルなどをAnkiBench内で利用できるようになります。<br>下の順番で作業してください。
+    </p>
+    <p>なお、イチからankibench用のデータを作成する場合は、<a
+            href="../">AnkiBenchトップページ</a>で右下の[+]ボタン（パソコンの場合は、「単元を追加」ボタンでも可）をクリックし、単元を作成した上で、その単元の「<i
+            class="material-icons md-edit"></i>」ボタンをクリックして表示された画面から作成可能です。</p>
+
+
+    <!--注意事項-->
+    <h3>注意事項</h3>
+    <ul>
+        <li>Excel関数が正しく処理されるかは未確認です。Excel関数を使用せずに作成することをおすすめします。</li>
+        <li>ワークシートに貼り付けた画像や図形などは無視され、文字情報のみ適用されます。</li>
+    </ul>
+    <!--表計算ソフトでのデータの作成方法-->
+    <h3>0. 表計算ソフトでデータを作成</h3>
+    <ul>
+        <li>表計算ソフトを起動して、<b>A列</b>に問題、<b>B列</b>に、問題への答えを入力します。<br>なお、答えが複数ある場合などは「||」で区切ると、AnkiBench上で、それぞれが箇条書きで表示されます。
+        </li>
+        <li>また、「ワークシート名」がAnkiBench内の「単元名」となります。</li>
+    </ul>
+    <!--手順1-->
+    <h3>1. xlsx形式で保存する</h3>
+    <p>表計算ソフトで、xlsx形式で保存してください。<br>(詳しい方法は、各ソフトウェアの発売元もしくは、発行元にご確認ください。)</p>
+    <!--手順2-->
+    <h3>2. プロパティの設定</h3>
+    <p>下のテキストボックスに、それぞれ「ドキュメントのタイトル」「作成者名」「説明」を入力してください</p>
+    <p><input type="text" id="title" placeholder="ドキュメントのタイトル"><br><input type="text" id="author"
+            placeholder="作成者名"><br><textarea id="description" placeholder="説明"></textarea></p>
+    
+    <!--手順3-->
+    <h3>3. 変換する</h3>
+    <p>下の「ファイルを開く」ボタンを押して、手順1で保存したxlsxファイルを選択し、開いてください。</p>
+    <p><button id="file-open" onclick="document.getElementById('file-selector').click();">ファイルを開く</button><input
+            type="file" id="file-selector" style="display: none" accept=".xlsx"></p>
+    <!--手順4-->
+    <h3>4. ダウンロード</h3>
+    <p>手順2の操作を行うと、自動的に変換されたファイルがダウンロードされます。ダウンロードされたファイルを<a href="../">AnkiBenchトップページ</a>の「ファイル」→「開く」から開くと、学習を始められます。
+    </p>
+
+    <script>
+        document.getElementById("file-selector").addEventListener("change", function (e) {
+            const file = e.currentTarget.files[0];
+            const reader = new FileReader();
+            reader.onload = function () {
+                const data = new Uint8Array(reader.result);
+                const workbook = XLSX.read(data, { type: "array" });
+                let exportData = {
+                    "properties": {
+                        "title": document.getElementById("title").value,
+                        "author": document.getElementById("author").value,
+                        "description": document.getElementById("description").value
+                    },
+                    "list": [],
+                    "data": []
+                };
+                workbook.SheetNames.forEach(function (sheetName) {
+                    const roa = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1 });
+                    if (roa.length) {
+                        exportData.list.push(sheetName);
+                        //問題と答えを抽出
+                        const data = {
+                            "id": sheetName,
+                            "cards": []
+                        };
+
+                        //console.log(roa);
+
+                        for (let i = 0; i < roa.length; i++) {
+                            data.cards[i] = {
+                                "q": roa[i][0],
+                                "a": roa[i][1]
+                            };
+                        }
+
+                        exportData.data.push(data);
+                    }
+                });
+
+                //console.log(exportData);
+                let filename = document.getElementById("title").value;
+                if(filename === "") filename = "notitle";
+                saveAs(new Blob([JSON.stringify(exportData)], {
+                    type: "application/x-ankibench;charset=utf-8"
+                }), `${filename}.ankibench`);
+            }
+            reader.readAsArrayBuffer(file);
+        });
+    </script>
+</body>
+
+</html>
