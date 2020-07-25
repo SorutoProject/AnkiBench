@@ -112,7 +112,7 @@ input[type="text"]{
 }
 
 #learn-question{
-    font-size:14pt;
+    font-size:16pt;
     font-weight:bold;
 }
 
@@ -212,3 +212,14 @@ input[type="text"]{
 .drag-handle{
     cursor:move !important;
 }
+
+/*card config*/
+#learn-card[data-hide="true"][data-qaaq="qa"] #learn-answer{
+    color:rgba(0,0,0,0);
+  }
+  #learn-card[data-hide="true"][data-qaaq="aq"] #learn-question{
+    color:rgba(0,0,0,0);
+  }
+  #learn-card[data-hide="true"][data-qaaq="aq"][data-firstletter="true"] #learn-question:first-letter{
+    color:#000;
+  }

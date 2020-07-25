@@ -97,7 +97,7 @@ const ankiBench = {
 			//残りの問題がなかったらメッセージを出して終了
 			if (ankiBench.playingData.length === 0) {
 				ankiBench.modal.alert(`<b>完了！</b><p>すべての問題が完了しました！</p>`);
-				ankiBench.changeView("home", false);
+				ankiBench.changeView("home", true);
 				return;
 			}
 			document.getElementById("learn-question").textContent = ankiBench.playingData[0].q;
@@ -120,6 +120,8 @@ const ankiBench = {
 
 			renderMathInElement(document.getElementById("learn-question"), katexOption);
 			renderMathInElement(document.getElementById("learn-answer"), katexOption);
+
+			document.getElementById("learn-card").dataset.hide = "true";
 		},
 		unknow: function () {
 			//残りの問題が20個以上ある時
@@ -167,6 +169,8 @@ const ankiBench = {
 
 			renderMathInElement(document.getElementById("learn-question"), katexOption);
 			renderMathInElement(document.getElementById("learn-answer"), katexOption);
+
+			document.getElementById("learn-card").dataset.hide = "true";
 		},
 		start: function (options) {
 			const card = document.getElementById("learn-card");
@@ -208,6 +212,11 @@ const ankiBench = {
 			});
 			document.getElementById("learn-answer").textContent = answerText;
 			document.getElementById("learn-answer").innerHTML = document.getElementById("learn-answer").textContent.split("\n").join("<br>");
+
+			//カードを初期化
+			card.dataset.hide = "true";
+			card.dataset.qaaq = options.qaaq;
+			card.dataset.firstletter = options.firstletter;
 
 			//katexを適用
 			const katexOption = {
@@ -573,8 +582,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		ankiBench.play.start({
 			id: playModal.dataset.id,
-			qaaq: document.getElementById("play-modal-qaaq")["play-modal-qaaq-item"],
-			random: document.getElementById("play-modal-random").checked
+			qaaq: document.getElementById("play-modal-qaaq")["play-modal-qaaq-item"].value,
+			random: document.getElementById("play-modal-random").checked,
+			firstletter:document.getElementById("play-modal-firstletter").checked
 		})
 	});
 
@@ -636,13 +646,35 @@ document.addEventListener("DOMContentLoaded", function () {
 				document.getElementById("learn-know").click();
 			}
 		});
+		//タップしたら、表示を切り替える
+		//スマホ用
+		document.getElementById("learn-card").addEventListener("touchstart", function (e) {
+			const hide = e.currentTarget.dataset.hide;
+			if(hide == "true"){
+				e.currentTarget.dataset.hide = "false";
+			}else{
+				e.currentTarget.dataset.hide = "true";
+			}
+		});
+	} else {
+		//タップしたら、表示を切り替える
+		//pc用
+		document.getElementById("learn-card").addEventListener("mousedown", function (e) {
+			const hide = e.currentTarget.dataset.hide;
+			if(hide == "true"){
+				e.currentTarget.dataset.hide = "false";
+			}else{
+				e.currentTarget.dataset.hide = "true";
+			}
+		});
 	}
+
 
 	document.getElementById("learn-know").addEventListener("click", function () {
 		document.getElementById("learn-card").classList.add("know");
 		setTimeout(function () {
 			ankiBench.play.know();
-			document.getElementById("learn-card").classList.remove("pre-unknow","pre-know");
+			document.getElementById("learn-card").classList.remove("pre-unknow", "pre-know");
 		}, 100);
 		setTimeout(function () {
 			document.getElementById("learn-card").classList.remove("know");
@@ -654,7 +686,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		document.getElementById("learn-card").classList.add("unknow");
 		setTimeout(function () {
 			ankiBench.play.unknow();
-			document.getElementById("learn-card").classList.remove("pre-unknow","pre-know");
+			document.getElementById("learn-card").classList.remove("pre-unknow", "pre-know");
 		}, 100);
 		setTimeout(function () {
 			document.getElementById("learn-card").classList.remove("unknow");
