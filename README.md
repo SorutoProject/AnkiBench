@@ -24,6 +24,9 @@ AnkiBenchをベースとして作成されたソフトウェアのソースコ�
     * [GitHub](https://github.com/KaTeX/KaTeX)
 * Material Icons(by Google, Apache version 2.0 Licensed.)
     * **AnkiBench** uses the updated icon font which is avaliable at https://github.com/material-icons/material-icons-font
+* SheetJS(Apache-2.0 Licensed)
+    * [HomePage](https://sheetjs.com/)
+    * [GitHub](https://github.com/SheetJS/sheetjs)
 * Sortable(MIT Licensed)
     * [HomePage](https://sortablejs.github.io/Sortable/)
     * [GitHub](https://github.com/SortableJS/Sortable)
