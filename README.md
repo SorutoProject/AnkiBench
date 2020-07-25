@@ -11,7 +11,7 @@ AnkiBenchは、「MIT License」のもとにライセンスされています。
 AnkiBenchをベースとして作成されたソフトウェアのソースコードは必ずしも一般に公開される必要はありませんが、作成したアプリのUIのどこかに必ず、「**Made with AnkiBench**」と記入し、このリポジトリへのリンク( https://github.com/SorutoProject/AnkiBench )を付ける必要があります。
 
 ## Made with...
-**AnkiBench** is made with these open-source softwares.
+**AnkiBench** is made with these open-source projects.
 
 * Materialize(MIT Licensed)
     * [HomePage](https://materializecss.com/)
