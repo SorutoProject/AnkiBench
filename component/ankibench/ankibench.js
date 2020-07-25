@@ -85,9 +85,7 @@ const ankiBench = {
 
 			//単元名を表示
 			document.getElementById("play-modal-unit-name").textContent = id;
-			//初期値を適用
-			document.getElementById("play-modal-qaaq")["play-modal-qaaq-item"].value = "qa";
-
+			
 			M.Modal.getInstance(playModal).open();
 
 			playModal.dataset.id = id;
