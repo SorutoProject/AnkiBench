@@ -92,13 +92,29 @@ const ankiBench = {
 		},
 		know: function () {
 			ankiBench.playingData.splice(0, 1);
+			//進捗状況を更新
+			const card = document.getElementById("learn-card");
+			card.dataset.know = Number(card.dataset.know) + (1 / Number(card.dataset.length));
+			if(card.dataset.displayedBool !== "true") card.dataset.displayed = Number(card.dataset.displayed) + (1 / Number(card.dataset.length)); 
+			document.getElementById("learn-progress-displayed").style = `width:${Number(card.dataset.displayed) * 100}%`;
+			document.getElementById("learn-progress-know").style = `width:${Number(card.dataset.know) * 100}%`;
+
 			//残りの問題がなかったらメッセージを出して終了
 			if (ankiBench.playingData.length === 0) {
-				ankiBench.modal.alert(`<b>完了！</b><p>すべての問題が完了しました！</p>`);
-				ankiBench.changeView("home", true);
+				/*ankiBench.modal.alert(`<b>完了！</b><p>すべての問題が完了しました！</p>`);
+				ankiBench.changeView("home", true);*/
+				document.getElementById("learn-question").innerHTML = `<div class="center-align">すべての問題が完了しました</div>`;
+				document.getElementById("learn-answer").innerHTML = `<div class="center-align"><button class="btn waves-effect" onclick="ankiBench.changeView('home',true);"><i class="material-icons md-arrow_forward right"></i>ホーム画面に移動</button></div>`;
+				
+				document.getElementById("learn-button-wrapper").style.display = "none";
 				return;
 			}
 			document.getElementById("learn-question").textContent = ankiBench.playingData[0].q;
+			if(ankiBench.playingData[0].displayed === true){
+				card.dataset.displayedBool = "true";
+			}else{
+				card.dataset.displayedBool = "false";
+			}
 
 			//答えを箇条書きにする
 			let answerText = `<ul class="browser-default">`;
@@ -106,7 +122,7 @@ const ankiBench = {
 				answerText += `<li>${item}</li>`;
 			});
 			answerText+="</ul>";
-			document.getElementById("learn-answer").innerHTML = answerText;
+			document.getElementById("learn-answer").innerHTML = DOMPurify.sanitize(answerText);
 
 			//katexを適用
 			const katexOption = {
@@ -119,9 +135,15 @@ const ankiBench = {
 			renderMathInElement(document.getElementById("learn-question"), katexOption);
 			renderMathInElement(document.getElementById("learn-answer"), katexOption);
 
-			document.getElementById("learn-card").dataset.hide = "true";
+			card.dataset.hide = "true";
 		},
 		unknow: function () {
+			//進捗状況を更新
+			const card = document.getElementById("learn-card");
+			if(card.dataset.displayedBool !== "true") card.dataset.displayed = Number(card.dataset.displayed) + (1 / Number(card.dataset.length)); 
+			document.getElementById("learn-progress-displayed").style = `width:${Number(card.dataset.displayed) * 100}%`;
+
+			ankiBench.playingData[0].displayed = true;//出題したことを記録
 			//残りの問題が20個以上ある時
 			if (ankiBench.playingData.length >= 20) {
 				//配列の位置を移動させる関数
@@ -148,6 +170,12 @@ const ankiBench = {
 				ankiBench.playingData.push(ankiBench.playingData.shift());
 			}
 			document.getElementById("learn-question").textContent = ankiBench.playingData[0].q;
+			if(ankiBench.playingData[0].displayed === true){
+				card.dataset.displayedBool = "true";
+			}else{
+				card.dataset.displayedBool = "false";
+			}
+			
 
 			//答えを箇条書きにする
 			let answerText = `<ul class="browser-default">`;
@@ -155,7 +183,7 @@ const ankiBench = {
 				answerText += `<li>${item}</li>`;
 			});
 			answerText+="</ul>";
-			document.getElementById("learn-answer").innerHTML = answerText;
+			document.getElementById("learn-answer").innerHTML = DOMPurify.sanitize(answerText);
 
 			//katexを適用
 			const katexOption = {
@@ -172,6 +200,7 @@ const ankiBench = {
 		},
 		start: function (options) {
 			const card = document.getElementById("learn-card");
+			
 			card.classList.remove("pre-know");
 			card.classList.remove("pre-unknow");
 			//検索
@@ -202,6 +231,7 @@ const ankiBench = {
 
 			//最初の問題・答えを表示
 			document.getElementById("learn-question").textContent = ankiBench.playingData[0].q;
+			ankiBench.playingData[0].displayed = true;//出題したことを記録
 
 			//答えを箇条書きにする
 			let answerText = `<ul class="browser-default">`;
@@ -209,12 +239,25 @@ const ankiBench = {
 				answerText += `<li>${item}</li>`;
 			});
 			answerText+="</ul>";
-			document.getElementById("learn-answer").innerHTML = answerText;
+			document.getElementById("learn-answer").innerHTML = DOMPurify.sanitize(answerText);
 
 			//カードを初期化
 			card.dataset.hide = "true";
 			card.dataset.qaaq = options.qaaq;
 			card.dataset.firstletter = options.firstletter;
+			card.dataset.length = ankiBench.userData.data[dataIndex].cards.length;
+			card.dataset.displayedBool = "false";
+
+			//「わかる」「わからない」ボタンを表示
+			document.getElementById("learn-button-wrapper").style.display = "block";
+
+			//進捗状況をリセット
+			document.getElementById("learn-progress-displayed").style = `width:0%`;
+			document.getElementById("learn-progress-know").style = `width:0%`;
+
+			//進捗状況表示用
+			card.dataset.displayed = 0;
+			card.dataset.know = 0;
 
 			//katexを適用
 			const katexOption = {

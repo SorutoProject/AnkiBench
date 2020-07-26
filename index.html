@@ -22,6 +22,7 @@
 	<script src="component/katex/katex.min.js"></script>
 	<script src="component/katex/auto-render.min.js"></script>
 	<script src="component/katex/mhchem.min.js"></script>
+	<script src="component/dompurify/purify.min.js"></script>
 	<script src="component/ankibench/ankibench.js"></script>
 
 	<!--PWA-->
@@ -186,6 +187,10 @@
 				<div id="learn">
 
 					<div class="row">
+						<div class="progress col s12">
+							<div class="determinate orange" id="learn-progress-displayed"></div>
+							<div class="determinate" id="learn-progress-know"></div>
+						</div>
 						<div class="col s12">
 							<div class="card" id="learn-card">
 								<div class="card-content">
