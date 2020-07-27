@@ -109,7 +109,7 @@
 			<div class="indeterminate"></div>
 		</div>
 	</div>
-	<div id="play-modal" class="modal">
+	<div id="play-modal" class="modal modal-fixed-footer">
 		<div class="modal-content">
 			<b>学習設定</b>
 			<p>単元名<br><b><span id="play-modal-unit-name"></span></b></p>
@@ -119,9 +119,7 @@
 					<label>
 						<input class="with-gap" name="play-modal-qaaq-item" type="radio" value="qa" checked/>
 						<span class="black-text">問題 → 答え</span>
-					</label>
-				</p>
-				<p class="col s12">
+					</label><br>
 					<label>
 						<input class="with-gap" name="play-modal-qaaq-item" type="radio" value="aq" />
 						<span class="black-text">答え → 問題</span>
@@ -136,6 +134,10 @@
 					<label>
 						<input type="checkbox" class="filled-in" checked="checked" id="play-modal-firstletter" />
 						<span class="black-text">最初の文字を表示する（<b>答え → 問題</b>モードでのみ有効）</span>
+					</label><br>
+					<label>
+						<input type="checkbox" class="filled-in" checked="checked" id="play-modal-displayedmark" />
+						<span class="black-text"><span class="ankibench-displayed-mark">出題済み</span>マークを表示</span>
 					</label>
 				</p>
 			</div>
@@ -199,6 +201,7 @@
 										information.
 										I am convenient because I require little markup to use effectively.</p>
 									<p id="learn-svg"></p>
+									<p class="right-align"><span class="ankibench-displayed-mark">出題済み</span></p>
 								</div>
 								<div class="card-action center-align row" id="learn-button-wrapper">
 									<span id="learn-unknow"

@@ -247,6 +247,7 @@ const ankiBench = {
 			card.dataset.firstletter = options.firstletter;
 			card.dataset.length = ankiBench.userData.data[dataIndex].cards.length;
 			card.dataset.displayedBool = "false";
+			card.dataset.displayedMark = options.displayedMark;
 
 			//「わかる」「わからない」ボタンを表示
 			document.getElementById("learn-button-wrapper").style.display = "block";
@@ -625,8 +626,9 @@ document.addEventListener("DOMContentLoaded", function () {
 			id: playModal.dataset.id,
 			qaaq: document.getElementById("play-modal-qaaq")["play-modal-qaaq-item"].value,
 			random: document.getElementById("play-modal-random").checked,
-			firstletter:document.getElementById("play-modal-firstletter").checked
-		})
+			firstletter:document.getElementById("play-modal-firstletter").checked,
+			displayedMark:document.getElementById("play-modal-displayedmark").checked
+		});
 	});
 
 	//learn view events
