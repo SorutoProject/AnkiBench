@@ -103,10 +103,11 @@ const ankiBench = {
 			if (ankiBench.playingData.length === 0) {
 				/*ankiBench.modal.alert(`<b>完了！</b><p>すべての問題が完了しました！</p>`);
 				ankiBench.changeView("home", true);*/
-				document.getElementById("learn-question").innerHTML = `<div class="center-align">すべての問題が完了しました</div>`;
+				document.getElementById("learn-question").innerHTML = `<div class="center-align black-text">すべての問題が完了しました</div>`;
 				document.getElementById("learn-answer").innerHTML = `<div class="center-align"><button class="btn waves-effect" onclick="ankiBench.changeView('home',true);"><i class="material-icons md-arrow_forward right"></i>ホーム画面に移動</button></div>`;
 				
 				document.getElementById("learn-button-wrapper").style.display = "none";
+				card.dataset.displayedBool = "false";
 				return;
 			}
 			document.getElementById("learn-question").textContent = ankiBench.playingData[0].q;
