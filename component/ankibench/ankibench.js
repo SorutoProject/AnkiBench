@@ -15,6 +15,14 @@ const ankiBench = {
 			const modalInstance = M.Modal.getInstance(modal);
 			modal.querySelector(".modal-content").innerHTML = html;
 			modalInstance.open();
+		},
+		load:{
+			open:function(){
+				M.Modal.getInstance(document.getElementById("load-modal")).open();
+			},
+			close:function(){
+				M.Modal.getInstance(document.getElementById("load-modal")).close();
+			}
 		}
 	},
 	//change view to ...
@@ -498,6 +506,8 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 	document.getElementById("file-selector").addEventListener("change", function (e) {
 		if (!confirm("[確認]\nファイルを開くと、現在編集中の内容は削除されます。\n必要な場合は現在の編集データを保存してください。\n続行しますか？")) return;
+		//読込中モーダルを表示
+		ankiBench.modal.load.open();
 		const reader = new FileReader();
 		reader.onload = function () {
 			try {
@@ -507,6 +517,9 @@ document.addEventListener("DOMContentLoaded", function () {
 				document.getElementById("pro-title").value = ankiBench.userData.properties.title;
 				document.getElementById("pro-author").value = ankiBench.userData.properties.author;
 				document.getElementById("pro-description").value = ankiBench.userData.properties.description;
+				//読込中モーダルを閉じる
+				ankiBench.modal.load.close();
+				
 				M.updateTextFields();
 				if (ankiBench.userData.data.length === 0) {
 					document.getElementById("home-list").innerHTML = `<li class="collection-item">単元データがありません。下のボタンから新しい単元を作成しましょう。</li>`;
