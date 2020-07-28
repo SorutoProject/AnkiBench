@@ -510,6 +510,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		ankiBench.modal.load.open();
 		const reader = new FileReader();
 		reader.onload = function () {
+			ankiBench.modal.load.close();
 			try {
 				ankiBench.userData = JSON.parse(reader.result);
 
@@ -518,7 +519,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				document.getElementById("pro-author").value = ankiBench.userData.properties.author;
 				document.getElementById("pro-description").value = ankiBench.userData.properties.description;
 				//読込中モーダルを閉じる
-				ankiBench.modal.load.close();
+				
 				
 				M.updateTextFields();
 				if (ankiBench.userData.data.length === 0) {
