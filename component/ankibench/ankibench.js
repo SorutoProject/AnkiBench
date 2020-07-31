@@ -207,6 +207,7 @@ const ankiBench = {
 
 			document.getElementById("learn-card").dataset.hide = "true";
 		},
+		//学習開始
 		start: function (options) {
 			const card = document.getElementById("learn-card");
 			
@@ -257,6 +258,9 @@ const ankiBench = {
 			card.dataset.length = ankiBench.userData.data[dataIndex].cards.length;
 			card.dataset.displayedBool = "false";
 			card.dataset.displayedMark = options.displayedMark;
+
+			//#learn-subject-nameに単元名を表示
+			document.getElementById("learn-subject-name").textContent = options.id;
 
 			//「わかる」「わからない」ボタンを表示
 			document.getElementById("learn-button-wrapper").style.display = "block";
