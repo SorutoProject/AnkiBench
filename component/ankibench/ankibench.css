@@ -212,6 +212,9 @@ input[type="text"]{
 .drag-handle{
     cursor:move !important;
 }
+.ankibench-unit-name{
+    cursor:text !important;
+}
 
 /*card config*/
 #learn-card[data-hide="true"][data-qaaq="qa"] #learn-answer{
