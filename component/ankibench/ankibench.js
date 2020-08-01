@@ -89,6 +89,16 @@ const ankiBench = {
 	},
 	play: {
 		open: function (id) {
+			//単元の存在チェック
+			const dataIndex = ankiBench.userData.data.findIndex(item => item.id === id);
+			if (dataIndex === -1) {
+				ankiBench.modal.alert(`<b>エラー</b><p>単元「${id}」が見つかりませんでした。</p>`);
+				return;
+			}
+			if (ankiBench.userData.data[dataIndex].cards.length === 0) {
+				ankiBench.modal.alert(`<b>エラー</b><p>単元「${id}」には、問題が登録されていません。`);
+				return;
+			}
 			const playModal = document.getElementById("play-modal");
 
 			//単元名を表示
@@ -388,14 +398,26 @@ const ankiBench = {
 				if (newName === "") {
 					M.toast({
 						html: "単元の名前が入力されていません"
-					})
+					});
 				}
 			}
 		},
 		changeUnitName:function(originalName){
 			const newName = prompt(`単元「${originalName}」の名前を変更します。\n新しい名前を入力して、OKをクリックしてください。`);
+			if(newName === ""){
+				M.toast({
+					html: "単元の名前が入力されていません"
+				});
+				return;
+			}
 			if(newName === null) return;
-
+			//名前がすでにあるものとダブっていたら弾く
+			if(ankiBench.userData.list.indexOf(newName) !== -1){
+				M.toast({
+					html:"すでに使われている単元名は使用できません"
+				});
+				return;
+			}
 			//ankiBench.userData.listから、originNameで検索して、それをnewNameに変更する
 			const listIndex = ankiBench.userData.list.indexOf(originalName);
 			if(listIndex === -1){
