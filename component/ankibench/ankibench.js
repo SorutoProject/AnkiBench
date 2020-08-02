@@ -276,6 +276,7 @@ const ankiBench = {
 			card.dataset.length = ankiBench.userData.data[dataIndex].cards.length;
 			card.dataset.displayedBool = "false";
 			card.dataset.displayedMark = options.displayedMark;
+			card.dataset.speak = options.speak;
 
 			//#learn-subject-nameに単元名を表示
 			document.getElementById("learn-unit-name").textContent = options.id;
@@ -786,7 +787,8 @@ document.addEventListener("DOMContentLoaded", function () {
 			qaaq: document.getElementById("play-modal-qaaq")["play-modal-qaaq-item"].value,
 			random: document.getElementById("play-modal-random").checked,
 			firstletter:document.getElementById("play-modal-firstletter").checked,
-			displayedMark:document.getElementById("play-modal-displayedmark").checked
+			displayedMark:document.getElementById("play-modal-displayedmark").checked,
+			speak:document.getElementById("play-modal-speak").checked
 		});
 	});
 

@@ -243,3 +243,10 @@ input[type="text"]{
 #learn-card[data-hide="true"][data-qaaq="aq"] #learn-speak-button{
     visibility: hidden;
 }
+#learn-card[data-speak="false"] #learn-speak-button{
+    display: none;
+}
+/*サイズ調整*/
+#learn-card[data-speak="false"] #learn-know, #learn-card[data-speak="false"] #learn-unknow{
+    width:50% !important;
+}
