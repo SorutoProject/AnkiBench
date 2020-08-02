@@ -217,6 +217,14 @@ const ankiBench = {
 
 			document.getElementById("learn-card").dataset.hide = "true";
 		},
+		//問題読み上げ
+		speakQ:function(){
+			const questionText = document.getElementById("learn-question").innerText;
+			const uttr = new SpeechSynthesisUtterance(questionText);
+			uttr.lang = "en-US";
+
+			speechSynthesis.speak(uttr);
+		},
 		//学習開始
 		start: function (options) {
 			const card = document.getElementById("learn-card");
@@ -886,6 +894,10 @@ document.addEventListener("DOMContentLoaded", function () {
 		setTimeout(function () {
 			document.getElementById("learn-card").classList.remove("unknow");
 		}, 300);
+	});
+
+	document.getElementById("learn-speak-button").addEventListener("click", function(){
+		ankiBench.play.speakQ();
 	});
 
 	//properties page

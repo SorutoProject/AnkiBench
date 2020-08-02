@@ -205,14 +205,20 @@
 										information.
 										I am convenient because I require little markup to use effectively.</p>
 									<p id="learn-svg"></p>
-									<p class="right-align"><span class="ankibench-displayed-mark">出題済み</span></p>
+									<p class="right-align row">
+										<span class="ankibench-displayed-mark">出題済み</span></p>
 								</div>
 								<div class="card-action center-align row" id="learn-button-wrapper">
 									<span id="learn-unknow"
-										class="col s6 blue lighten-2 white-text btn-flat btn-large waves-effect waves-light">わからない</span>
+										class="col s5 blue lighten-2 white-text btn-flat btn-large waves-effect waves-light">わからない</span>
+									<!--問題読み上げボタン-->
+									<span class="col s2 waves-effect btn-flat btn-large black-text grey lighten-3" id="learn-speak-button">
+										<i class="material-icons md-record_voice_over"></i>
+									</span>
 									<span id="learn-know"
-										class="col s6 pink lighten-2 white-text btn-flat btn-large waves-effect waves-light">わかる</span>
+										class="col s5 pink lighten-2 white-text btn-flat btn-large waves-effect waves-light">わかる</span>
 								</div>
+
 							</div>
 						</div>
 					</div>
@@ -247,6 +253,13 @@
 					<p><a href="https://github.com/SorutoProject/AnkiBench" target="_blank"
 							class="btn waves-effect waves-light black white-text">GitHub</a></p>
 					<p>&copy;2020 Soruto Project.</p>
+				</div>
+				<div id="setting">
+					<h5>設定</h5>
+					<p>ここで設定した内容は、このブラウザのみに適用されます。</p>
+					<!--音声合成の言語設定-->
+					<b>音声合成</b>
+					<p>言語<br></p>
 				</div>
 			</div>
 		</main>

@@ -239,3 +239,7 @@ input[type="text"]{
 #learn-card[data-displayed-bool="true"][data-displayed-mark="true"] .ankibench-displayed-mark{
     visibility: visible;
 }
+/*問題が隠されているときは、読み上げボタンも隠す*/
+#learn-card[data-hide="true"][data-qaaq="aq"] #learn-speak-button{
+    visibility: hidden;
+}
