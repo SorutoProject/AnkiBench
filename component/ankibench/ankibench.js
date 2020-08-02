@@ -640,10 +640,10 @@ document.addEventListener("DOMContentLoaded", function () {
 		ankiBench.newFile();
 	});
 	document.getElementById("file-open").addEventListener("click", function () {
+		if (!confirm("[確認]\nファイルを開くと、現在編集中の内容は削除されます。\n必要な場合は現在の編集データを保存してください。\n続行しますか？")) return;
 		document.getElementById("file-selector").click();
 	});
 	document.getElementById("file-selector").addEventListener("change", function (e) {
-		if (!confirm("[確認]\nファイルを開くと、現在編集中の内容は削除されます。\n必要な場合は現在の編集データを保存してください。\n続行しますか？")) return;
 		//読込中モーダルを表示
 		ankiBench.modal.load.open();
 		const reader = new FileReader();
