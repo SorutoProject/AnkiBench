@@ -106,7 +106,7 @@ const ankiBench = {
 					ankiBench.userData.list.forEach(function (item) {
 						const newItem = document.createElement("li");
 						newItem.classList.add("collection-item");
-						newItem.innerHTML = `<div class="row"><span class="col s1 left-align"><i class="material-icons md-drag_handle drag-handle"></i></span><span class="col s8 left-align"><span class="ankibench-unit-name">${item}</span></span><span class="col s1 center-align"><i class="material-icons md-play_arrow ankibench-play"></i></span></div>`;
+						newItem.innerHTML = `<div class="row"><span class="col s11 left-align"><span class="ankibench-unit-name">${item}</span></span><span class="col s1 center-align"><i class="material-icons md-play_arrow ankibench-play"></i></span></div>`;
 						newItem.dataset["id"] = item;
 
 						//Button Events
@@ -647,6 +647,10 @@ document.addEventListener("DOMContentLoaded", function () {
 					document.getElementById("pro-title").removeAttribute("readonly");
 					document.getElementById("pro-author").removeAttribute("readonly");
 					document.getElementById("pro-description").removeAttribute("readonly");
+
+					
+					//リストを更新
+					ankiBench.homeList.update();
 				}
 				//.ankibenchroファイル(配布用暗号化ファイル)
 				else if (fileExt === "ankibenchro") {
@@ -668,7 +672,8 @@ document.addEventListener("DOMContentLoaded", function () {
 							document.getElementById("pro-author").setAttribute("readonly", "");
 							document.getElementById("pro-description").setAttribute("readonly", "");
 
-							//
+							//読み取り専用として、リストを更新
+							ankiBench.homeList.update(true);
 						} catch (e) {
 							ankiBench.modal.alert(`<b>エラー</b><p>パスワードが正しくありません</p>`);
 							console.error(e);
@@ -692,8 +697,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 				M.updateTextFields();
-				//リストを更新
-				ankiBench.homeList.update();
 
 				M.toast({
 					html: `${e.target.files[0].name} を読み込みました。`
