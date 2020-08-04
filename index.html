@@ -23,6 +23,7 @@
 	<script src="component/katex/auto-render.min.js"></script>
 	<script src="component/katex/mhchem.min.js"></script>
 	<script src="component/dompurify/purify.min.js"></script>
+	<script src="component/cryptojs/crypto-js.min.js"></script>
 	<script src="component/ankibench/ankibench.js"></script>
 
 	<!--PWA-->
@@ -74,9 +75,12 @@
 		<li><a class="black-text waves-effect" id="file-open">開く</a></li>
 		<li><a class="black-text waves-effect" id="file-save">保存</a></li>
 		<li class="divider"></li>
+		<li class="subheader">配布用ファイル</li>
+		<li><a class="black-text waves-effect" id="dist-file-save">保存</a></li>
+		<li class="divider"></li>
 		<li><a class="black-text waves-effect" href="./xlsx-to-ankibench/index.html" target="_blank">XLSXを変換</a></li>
 		<!--file selector-->
-		<input type="file" accept=".ankibench" id="file-selector" style="display:none;">
+		<input type="file" accept=".ankibench,.ankibenchro" id="file-selector" style="display:none;">
 	</ul>
 
 	<!--modals-->

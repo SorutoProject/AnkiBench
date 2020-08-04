@@ -16,11 +16,11 @@ const ankiBench = {
 			modal.querySelector(".modal-content").innerHTML = html;
 			modalInstance.open();
 		},
-		load:{
-			open:function(){
+		load: {
+			open: function () {
 				M.Modal.getInstance(document.getElementById("load-modal")).open();
 			},
-			close:function(){
+			close: function () {
 				M.Modal.getInstance(document.getElementById("load-modal")).close();
 			}
 		}
@@ -87,6 +87,76 @@ const ankiBench = {
 			});
 		}
 	},
+	//#home-listに関する関数とか
+	homeList: {
+		//リストを更新
+		update: function () {
+			//#home-listを更新
+			if (ankiBench.userData.data.length === 0) {
+				document.getElementById("home-list").innerHTML = `<li class="collection-item">単元データがありません。下のボタンから新しい単元を作成しましょう。</li>`;
+				document.getElementById("home-list").dataset.listed = "false";
+			} else {
+				let homeList = document.querySelector("#home-list");
+				if (homeList.dataset.listed === "false") {
+					homeList.dataset.listed = "true";
+				}
+				homeList.innerHTML = "";
+
+				ankiBench.userData.list.forEach(function (item) {
+					const newItem = document.createElement("li");
+					newItem.classList.add("collection-item");
+					newItem.innerHTML = `<div class="row"><span class="col s1 left-align"><i class="material-icons md-drag_handle drag-handle"></i></span><span class="col s8 left-align"><span class="ankibench-unit-name">${item}</span></span><span class="col s1 center-align"><i class="material-icons md-play_arrow ankibench-play"></i></span><span class="col s1 center-align"><i class="material-icons md-edit ankibench-edit"></i></span><span class="col s1 center-align"><i class="material-icons md-delete_forever ankibench-delete"></i></span></div>`;
+					newItem.dataset["id"] = item;
+
+					//Button Events
+					newItem.querySelector(".ankibench-play").addEventListener("click", function (e) {
+						const listParent = e.currentTarget.parentElement.parentElement.parentElement; //単元リストの親要素
+						const listId = listParent.dataset.id;
+
+						ankiBench.play.open(listId);
+					});
+
+					newItem.querySelector(".ankibench-edit").addEventListener("click", function () {
+
+					});
+
+					newItem.querySelector(".ankibench-unit-name").addEventListener("click", function (e) {
+						const listParent = e.currentTarget.parentElement.parentElement.parentElement; //単元リストの親要素
+						const listId = listParent.dataset.id; //単元ID
+
+						ankiBench.edit.changeUnitName(listId);
+					});
+
+					newItem.querySelector(".ankibench-delete").addEventListener("click", function (e) {
+						const listParent = e.currentTarget.parentElement.parentElement.parentElement; //単元リストの親要素
+
+						const listId = listParent.dataset.id; //単元ID
+						if (confirm(`単元「${listId}」を削除しますか？\n削除すると、二度と回復できません。`)) {
+							//ankiBench.userData.listから削除
+
+							const listIndex = ankiBench.userData.list.indexOf(listId);
+							ankiBench.userData.list.splice(listIndex, 1); //ankiBench.userData.dataから削除
+							const dataIndex = ankiBench.userData.data.findIndex(item => item.id === listId);
+							if (dataIndex !== -1) {
+								ankiBench.userData.data.splice(dataIndex, 1);
+							}
+
+							listParent.remove();
+
+							//単元が何もなくなったとき
+							if (ankiBench.userData.list.length === 0) {
+								document.getElementById("home-list").innerHTML = `<li class="collection-item">単元データがありません。下のボタンから新しい単元を作成しましょう。</li>`;
+								document.getElementById("home-list").dataset.listed = "false";
+							}
+
+						}
+					});
+
+					homeList.appendChild(newItem);
+				});
+			}
+		}
+	},
 	play: {
 		open: function (id) {
 			//単元の存在チェック
@@ -103,7 +173,7 @@ const ankiBench = {
 
 			//単元名を表示
 			document.getElementById("play-modal-unit-name").textContent = id;
-			
+
 			M.Modal.getInstance(playModal).open();
 
 			playModal.dataset.id = id;
@@ -113,7 +183,7 @@ const ankiBench = {
 			//進捗状況を更新
 			const card = document.getElementById("learn-card");
 			card.dataset.know = Number(card.dataset.know) + (1 / Number(card.dataset.length));
-			if(card.dataset.displayedBool !== "true") card.dataset.displayed = Number(card.dataset.displayed) + (1 / Number(card.dataset.length)); 
+			if (card.dataset.displayedBool !== "true") card.dataset.displayed = Number(card.dataset.displayed) + (1 / Number(card.dataset.length));
 			document.getElementById("learn-progress-displayed").style = `width:${Number(card.dataset.displayed) * 100}%`;
 			document.getElementById("learn-progress-know").style = `width:${Number(card.dataset.know) * 100}%`;
 
@@ -123,15 +193,15 @@ const ankiBench = {
 				ankiBench.changeView("home", true);*/
 				document.getElementById("learn-question").innerHTML = `<div class="center-align black-text">すべての問題が完了しました</div>`;
 				document.getElementById("learn-answer").innerHTML = `<div class="center-align"><button class="btn waves-effect" onclick="ankiBench.changeView('home',true);"><i class="material-icons md-arrow_forward right"></i>ホーム画面に移動</button></div>`;
-				
+
 				document.getElementById("learn-button-wrapper").style.display = "none";
 				card.dataset.displayedBool = "false";
 				return;
 			}
 			document.getElementById("learn-question").textContent = ankiBench.playingData[0].q;
-			if(ankiBench.playingData[0].displayed === true){
+			if (ankiBench.playingData[0].displayed === true) {
 				card.dataset.displayedBool = "true";
-			}else{
+			} else {
 				card.dataset.displayedBool = "false";
 			}
 
@@ -140,7 +210,7 @@ const ankiBench = {
 			ankiBench.playingData[0].a.split("||").forEach(function (item) {
 				answerText += `<li>${item}</li>`;
 			});
-			answerText+="</ul>";
+			answerText += "</ul>";
 			document.getElementById("learn-answer").innerHTML = DOMPurify.sanitize(answerText);
 
 			//katexを適用
@@ -159,7 +229,7 @@ const ankiBench = {
 		unknow: function () {
 			//進捗状況を更新
 			const card = document.getElementById("learn-card");
-			if(card.dataset.displayedBool !== "true") card.dataset.displayed = Number(card.dataset.displayed) + (1 / Number(card.dataset.length)); 
+			if (card.dataset.displayedBool !== "true") card.dataset.displayed = Number(card.dataset.displayed) + (1 / Number(card.dataset.length));
 			document.getElementById("learn-progress-displayed").style = `width:${Number(card.dataset.displayed) * 100}%`;
 
 			ankiBench.playingData[0].displayed = true;//出題したことを記録
@@ -189,19 +259,19 @@ const ankiBench = {
 				ankiBench.playingData.push(ankiBench.playingData.shift());
 			}
 			document.getElementById("learn-question").textContent = ankiBench.playingData[0].q;
-			if(ankiBench.playingData[0].displayed === true){
+			if (ankiBench.playingData[0].displayed === true) {
 				card.dataset.displayedBool = "true";
-			}else{
+			} else {
 				card.dataset.displayedBool = "false";
 			}
-			
+
 
 			//答えを箇条書きにする
 			let answerText = `<ul class="browser-default">`;
 			ankiBench.playingData[0].a.split("||").forEach(function (item) {
 				answerText += `<li>${item}</li>`;
 			});
-			answerText+="</ul>";
+			answerText += "</ul>";
 			document.getElementById("learn-answer").innerHTML = DOMPurify.sanitize(answerText);
 
 			//katexを適用
@@ -218,7 +288,7 @@ const ankiBench = {
 			document.getElementById("learn-card").dataset.hide = "true";
 		},
 		//問題読み上げ
-		speakQ:function(){
+		speakQ: function () {
 			const questionText = document.getElementById("learn-question").innerText;
 			const uttr = new SpeechSynthesisUtterance(questionText);
 			uttr.lang = "en-US";
@@ -228,7 +298,7 @@ const ankiBench = {
 		//学習開始
 		start: function (options) {
 			const card = document.getElementById("learn-card");
-			
+
 			card.classList.remove("pre-know");
 			card.classList.remove("pre-unknow");
 			//検索
@@ -266,7 +336,7 @@ const ankiBench = {
 			ankiBench.playingData[0].a.split("||").forEach(function (item) {
 				answerText += `<li>${item}</li>`;
 			});
-			answerText+="</ul>";
+			answerText += "</ul>";
 			document.getElementById("learn-answer").innerHTML = DOMPurify.sanitize(answerText);
 
 			//カードを初期化
@@ -345,64 +415,8 @@ const ankiBench = {
 
 				ankiBench.userData.list.push(newName);
 
-
-				let homeList = document.querySelector("#home-list");
-				if (homeList.dataset.listed === "false") {
-					homeList.innerHTML = "";
-					homeList.dataset.listed = "true";
-				}
-
-				const newItem = document.createElement("li");
-				newItem.classList.add("collection-item");
-				newItem.innerHTML = `<div class="row"><span class="col s1 left-align"><i class="material-icons md-drag_handle drag-handle"></i></span><span class="col s8 left-align"><span class="ankibench-unit-name">${newName}</span></span><span class="col s1 center-align"><i class="material-icons md-play_arrow ankibench-play"></i></span><span class="col s1 center-align"><i class="material-icons md-edit ankibench-edit"></i></span><span class="col s1 center-align"><i class="material-icons md-delete_forever ankibench-delete"></i></span></div>`;
-				newItem.dataset["id"] = newName;
-
-				//Button Events
-				newItem.querySelector(".ankibench-play").addEventListener("click", function (e) {
-					const listParent = e.currentTarget.parentElement.parentElement.parentElement; //単元リストの親要素
-					const listId = listParent.dataset.id;
-
-					ankiBench.play.open(listId);
-				});
-
-				newItem.querySelector(".ankibench-edit").addEventListener("click", function () {
-
-				});
-
-				newItem.querySelector(".ankibench-unit-name").addEventListener("click", function(e){
-					const listParent = e.currentTarget.parentElement.parentElement.parentElement; //単元リストの親要素
-					console.log(listParent);
-					const listId = listParent.dataset.id; //単元ID
-
-					ankiBench.edit.changeUnitName(listId);
-				});
-
-				newItem.querySelector(".ankibench-delete").addEventListener("click", function (e) {
-					const listParent = e.currentTarget.parentElement.parentElement.parentElement; //単元リストの親要素
-
-					const listId = listParent.dataset.id; //単元ID
-					if (confirm(`単元「${listId}」を削除しますか？\n削除すると、二度と回復できません。`)) {
-						//ankiBench.userData.listから削除
-
-						const listIndex = ankiBench.userData.list.indexOf(listId);
-						ankiBench.userData.list.splice(listIndex, 1); //ankiBench.userData.dataから削除
-						const dataIndex = ankiBench.userData.data.findIndex(item => item.id === listId);
-						if (dataIndex !== -1) {
-							ankiBench.userData.data.splice(dataIndex, 1);
-						}
-
-						listParent.remove();
-
-						//単元が何もなくなったとき
-						if (ankiBench.userData.list.length === 0) {
-							document.getElementById("home-list").innerHTML = `<li class="collection-item">単元データがありません。下のボタンから新しい単元を作成しましょう。</li>`;
-							document.getElementById("home-list").dataset.listed = "false";
-						}
-
-					}
-				})
-
-				homeList.appendChild(newItem);
+				//リスト更新
+				ankiBench.homeList.update();
 			} else {
 				if (newName === "") {
 					M.toast({
@@ -411,111 +425,47 @@ const ankiBench = {
 				}
 			}
 		},
-		changeUnitName:function(originalName){
+		changeUnitName: function (originalName) {
 			const newName = prompt(`単元「${originalName}」の名前を変更します。\n新しい名前を入力して、OKをクリックしてください。`);
-			if(newName === ""){
+			if (newName === "") {
 				M.toast({
 					html: "単元の名前が入力されていません"
 				});
 				return;
 			}
-			if(newName === null) return;
+			if (newName === null) return;
 			//名前がすでにあるものとダブっていたら弾く
-			if(ankiBench.userData.list.indexOf(newName) !== -1){
+			if (ankiBench.userData.list.indexOf(newName) !== -1) {
 				M.toast({
-					html:"すでに使われている単元名は使用できません"
+					html: "すでに使われている単元名は使用できません"
 				});
 				return;
 			}
 			//ankiBench.userData.listから、originNameで検索して、それをnewNameに変更する
 			const listIndex = ankiBench.userData.list.indexOf(originalName);
-			if(listIndex === -1){
+			if (listIndex === -1) {
 				ankiBench.modal.alert(`<b>エラー</b><p>単元「${originalName}」が見つかりませんでした。</p>`);
 				return;
-			}else{
+			} else {
 				//ankiBench.userData.list[listIndex]を書き換え
 				ankiBench.userData.list[listIndex] = newName;
 			}
 
 			//ankiBench.userData.dataから、originNameで検索して、そのidをnewNameに変更する
 			const dataIndex = ankiBench.userData.data.findIndex(item => item.id === originalName);
-			if(dataIndex === -1){
+			if (dataIndex === -1) {
 				ankiBench.modal.alert(`<b>エラー</b><p>単元リストと単元データの構造が壊れています。</b>`);
 				return;
 			}
-			else{
+			else {
 				//ankiBench.userData.data[dataIndex].idを書き換え
 				ankiBench.userData.data[dataIndex].id = newName;
 			}
 
-			//#home-listを更新
-			if (ankiBench.userData.data.length === 0) {
-				document.getElementById("home-list").innerHTML = `<li class="collection-item">単元データがありません。下のボタンから新しい単元を作成しましょう。</li>`;
-				document.getElementById("home-list").dataset.listed = "false";
-			} else {
-				let homeList = document.querySelector("#home-list");
-				if (homeList.dataset.listed === "false") {
-					homeList.dataset.listed = "true";
-				}
-				homeList.innerHTML = "";
-
-				ankiBench.userData.list.forEach(function (item) {
-					const newItem = document.createElement("li");
-					newItem.classList.add("collection-item");
-					newItem.innerHTML = `<div class="row"><span class="col s1 left-align"><i class="material-icons md-drag_handle drag-handle"></i></span><span class="col s8 left-align"><span class="ankibench-unit-name">${item}</span></span><span class="col s1 center-align"><i class="material-icons md-play_arrow ankibench-play"></i></span><span class="col s1 center-align"><i class="material-icons md-edit ankibench-edit"></i></span><span class="col s1 center-align"><i class="material-icons md-delete_forever ankibench-delete"></i></span></div>`;
-					newItem.dataset["id"] = item;
-
-					//Button Events
-					newItem.querySelector(".ankibench-play").addEventListener("click", function (e) {
-						const listParent = e.currentTarget.parentElement.parentElement.parentElement; //単元リストの親要素
-						const listId = listParent.dataset.id;
-
-						ankiBench.play.open(listId);
-					});
-
-					newItem.querySelector(".ankibench-edit").addEventListener("click", function () {
-
-					});
-
-					newItem.querySelector(".ankibench-unit-name").addEventListener("click", function(e){
-						const listParent = e.currentTarget.parentElement.parentElement.parentElement; //単元リストの親要素
-						const listId = listParent.dataset.id; //単元ID
-
-						ankiBench.edit.changeUnitName(listId);
-					});
-
-					newItem.querySelector(".ankibench-delete").addEventListener("click", function (e) {
-						const listParent = e.currentTarget.parentElement.parentElement.parentElement; //単元リストの親要素
-
-						const listId = listParent.dataset.id; //単元ID
-						if (confirm(`単元「${listId}」を削除しますか？\n削除すると、二度と回復できません。`)) {
-							//ankiBench.userData.listから削除
-
-							const listIndex = ankiBench.userData.list.indexOf(listId);
-							ankiBench.userData.list.splice(listIndex, 1); //ankiBench.userData.dataから削除
-							const dataIndex = ankiBench.userData.data.findIndex(item => item.id === listId);
-							if (dataIndex !== -1) {
-								ankiBench.userData.data.splice(dataIndex, 1);
-							}
-
-							listParent.remove();
-
-							//単元が何もなくなったとき
-							if (ankiBench.userData.list.length === 0) {
-								document.getElementById("home-list").innerHTML = `<li class="collection-item">単元データがありません。下のボタンから新しい単元を作成しましょう。</li>`;
-								document.getElementById("home-list").dataset.listed = "false";
-							}
-
-						}
-					});
-
-					homeList.appendChild(newItem);
-				});
-
-				M.toast({
-					html:"単元の名前を変更しました"
-				})
-			}
+			ankiBench.homeList.update();
+			M.toast({
+				html: "単元の名前を変更しました"
+			})
 
 		}
 	},
@@ -647,82 +597,52 @@ document.addEventListener("DOMContentLoaded", function () {
 		//読込中モーダルを表示
 		ankiBench.modal.load.open();
 		const reader = new FileReader();
+		const getExtension = function (filename) {
+			return filename.slice((filename.lastIndexOf('.') - 1 >>> 0) + 2);
+		}
+		const fileExt = getExtension(e.target.files[0].name);
 		reader.onload = function () {
 			ankiBench.modal.load.close();
 			try {
-				ankiBench.userData = JSON.parse(reader.result);
+				//.ankibenchファイル
+				if (fileExt === "ankibench") {
+					ankiBench.userData = JSON.parse(reader.result);
+				}
+				//.ankibenchroファイル(配布用暗号化ファイル)
+				else if (fileExt === "ankibenchro") {
+					//暗号化解除パスワードを入力させる
+					const pass = prompt(`${e.target.files[0].name}は、暗号化されたファイルです。\nパスワードを入力してください。\n※パスワードが分からない場合は、ファイルの作成者にご確認ください。`);
+					if (pass === "" || pass === null) {
+						return;
+					} else {
+						try {
+							//暗号化解除を試行
+							const decrypted = CryptoJS.AES.decrypt(reader.result, pass).toString(CryptoJS.enc.Utf8);
+							ankiBench.userData = JSON.parse(decrypted);
+						} catch (e) {
+							ankiBench.modal.alert(`<b>エラー</b><p>パスワードが正しくありません</p>`);
+							console.error(e);
+							return;
+						}
+
+					}
+				} else {
+					M.toast({
+						html: "対応していないファイルです"
+					})
+				}
+
 
 				//set properties page
 				document.getElementById("pro-title").value = ankiBench.userData.properties.title;
 				document.getElementById("pro-author").value = ankiBench.userData.properties.author;
 				document.getElementById("pro-description").value = ankiBench.userData.properties.description;
 				//読込中モーダルを閉じる
-				
-				
+
+
 				M.updateTextFields();
-				if (ankiBench.userData.data.length === 0) {
-					document.getElementById("home-list").innerHTML = `<li class="collection-item">単元データがありません。下のボタンから新しい単元を作成しましょう。</li>`;
-					document.getElementById("home-list").dataset.listed = "false";
-				} else {
-					let homeList = document.querySelector("#home-list");
-					if (homeList.dataset.listed === "false") {
-						homeList.dataset.listed = "true";
-					}
-					homeList.innerHTML = "";
-
-					ankiBench.userData.list.forEach(function (item) {
-						const newItem = document.createElement("li");
-						newItem.classList.add("collection-item");
-						newItem.innerHTML = `<div class="row"><span class="col s1 left-align"><i class="material-icons md-drag_handle drag-handle"></i></span><span class="col s8 left-align"><span class="ankibench-unit-name">${item}</span></span><span class="col s1 center-align"><i class="material-icons md-play_arrow ankibench-play"></i></span><span class="col s1 center-align"><i class="material-icons md-edit ankibench-edit"></i></span><span class="col s1 center-align"><i class="material-icons md-delete_forever ankibench-delete"></i></span></div>`;
-						newItem.dataset["id"] = item;
-
-						//Button Events
-						newItem.querySelector(".ankibench-play").addEventListener("click", function (e) {
-							const listParent = e.currentTarget.parentElement.parentElement.parentElement; //単元リストの親要素
-							const listId = listParent.dataset.id;
-
-							ankiBench.play.open(listId);
-						});
-
-						newItem.querySelector(".ankibench-edit").addEventListener("click", function () {
-
-						});
-
-						newItem.querySelector(".ankibench-unit-name").addEventListener("click", function(e){
-							const listParent = e.currentTarget.parentElement.parentElement.parentElement; //単元リストの親要素
-							const listId = listParent.dataset.id; //単元ID
-	
-							ankiBench.edit.changeUnitName(listId);
-						});
-
-						newItem.querySelector(".ankibench-delete").addEventListener("click", function (e) {
-							const listParent = e.currentTarget.parentElement.parentElement.parentElement; //単元リストの親要素
-
-							const listId = listParent.dataset.id; //単元ID
-							if (confirm(`単元「${listId}」を削除しますか？\n削除すると、二度と回復できません。`)) {
-								//ankiBench.userData.listから削除
-
-								const listIndex = ankiBench.userData.list.indexOf(listId);
-								ankiBench.userData.list.splice(listIndex, 1); //ankiBench.userData.dataから削除
-								const dataIndex = ankiBench.userData.data.findIndex(item => item.id === listId);
-								if (dataIndex !== -1) {
-									ankiBench.userData.data.splice(dataIndex, 1);
-								}
-
-								listParent.remove();
-
-								//単元が何もなくなったとき
-								if (ankiBench.userData.list.length === 0) {
-									document.getElementById("home-list").innerHTML = `<li class="collection-item">単元データがありません。下のボタンから新しい単元を作成しましょう。</li>`;
-									document.getElementById("home-list").dataset.listed = "false";
-								}
-
-							}
-						});
-
-						homeList.appendChild(newItem);
-					});
-				}
+				//リストを更新
+				ankiBench.homeList.update();
 
 				M.toast({
 					html: `${e.target.files[0].name} を読み込みました。`
@@ -753,6 +673,34 @@ document.addEventListener("DOMContentLoaded", function () {
 		saveAs(new Blob([JSON.stringify(ankiBench.userData)], {
 			type: "application/x-ankibench;charset=utf-8"
 		}), `${fileName}.ankibench`);
+	});
+
+	//配布ファイル保存
+	document.getElementById("dist-file-save").addEventListener("click", function () {
+		let fileName;
+		if (ankiBench.userData.properties.title !== "") {
+			fileName = ankiBench.userData.properties.title;
+		} else {
+			fileName = "notitle";
+		}
+
+		//パスワードを入力させる
+		const pass = prompt("保存するファイルを暗号化するためのパスワードを設定します。\n設定するパスワードを入力してください。\n※ここで入力したパスワードは、ファイルを開くときに必要になります。\n大切に保管し、また利用者にパスワードを通知してください。");
+
+		if (pass === "") {
+			M.toast({
+				html: "パスワードに空文字は使用できません"
+			});
+			return;
+		} else if (pass === null) return;
+		else {
+			//暗号化実行
+			const encrypted = CryptoJS.AES.encrypt(JSON.stringify(ankiBench.userData), pass).toString();
+			//ダウンロード
+			saveAs(new Blob([encrypted], {
+				type: "application/x-ankibench-dist;charset=utf-8"
+			}), `${fileName}.ankibenchro`);
+		}
 	});
 
 	document.getElementById("back-button").addEventListener("click", function () {
@@ -786,9 +734,9 @@ document.addEventListener("DOMContentLoaded", function () {
 			id: playModal.dataset.id,
 			qaaq: document.getElementById("play-modal-qaaq")["play-modal-qaaq-item"].value,
 			random: document.getElementById("play-modal-random").checked,
-			firstletter:document.getElementById("play-modal-firstletter").checked,
-			displayedMark:document.getElementById("play-modal-displayedmark").checked,
-			speak:document.getElementById("play-modal-speak").checked
+			firstletter: document.getElementById("play-modal-firstletter").checked,
+			displayedMark: document.getElementById("play-modal-displayedmark").checked,
+			speak: document.getElementById("play-modal-speak").checked
 		});
 	});
 
@@ -796,7 +744,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	//swipe
 	//タッチデバイス向け
 
-	
+
 	if (window.ontouchstart === null) {/*
 		const cardContent = document.querySelector("#learn-card .card-content");
 		const card = document.getElementById("learn-card");
@@ -855,9 +803,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		//スマホ用
 		document.getElementById("learn-card").addEventListener("touchstart", function (e) {
 			const hide = e.currentTarget.dataset.hide;
-			if(hide == "true"){
+			if (hide == "true") {
 				e.currentTarget.dataset.hide = "false";
-			}else{
+			} else {
 				e.currentTarget.dataset.hide = "true";
 			}
 		});
@@ -866,9 +814,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		//pc用
 		document.getElementById("learn-card").addEventListener("mousedown", function (e) {
 			const hide = e.currentTarget.dataset.hide;
-			if(hide == "true"){
+			if (hide == "true") {
 				e.currentTarget.dataset.hide = "false";
-			}else{
+			} else {
 				e.currentTarget.dataset.hide = "true";
 			}
 		});
@@ -898,7 +846,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		}, 300);
 	});
 
-	document.getElementById("learn-speak-button").addEventListener("click", function(){
+	document.getElementById("learn-speak-button").addEventListener("click", function () {
 		ankiBench.play.speakQ();
 	});
 
