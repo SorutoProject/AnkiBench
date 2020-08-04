@@ -37,6 +37,21 @@ input[type="text"]{
 .nav-wrapper .brand-logo{
     font-size:14pt;
 }
+#dropdown-file{
+    width:200px !important;
+    left:auto !important;
+    right:0.75rem !important;
+}
+
+.dropdown-content li.subheader{
+    min-height:auto !important;
+    color:#aaa;
+    cursor: default;
+}
+
+.dropdown-content li.subheader:hover{
+    background: #fff !important;
+}
 
 .collection{
     border:none;
