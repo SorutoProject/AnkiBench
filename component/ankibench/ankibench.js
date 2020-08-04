@@ -640,15 +640,19 @@ document.addEventListener("DOMContentLoaded", function () {
 				if (fileExt === "ankibench") {
 					ankiBench.userData = JSON.parse(reader.result);
 					//「保存」ボタンを表示
-					document.getElementById("file-save").parentElement.style.display = "block";
-					document.getElementById("dist-file-save").parentElement.style.display = "block";
+					document.getElementById("file-save").parentElement.style.display = "";
+					document.getElementById("dist-file-save").parentElement.style.display = "";
+
+					//「単元を追加」ボタンを表示
+					document.getElementById("add-button").style.display = "";
+					document.getElementById("add-button-pc").style.display = "";
 
 					//プロパティページのテキストボックスを編集できるようにする
 					document.getElementById("pro-title").removeAttribute("readonly");
 					document.getElementById("pro-author").removeAttribute("readonly");
 					document.getElementById("pro-description").removeAttribute("readonly");
 
-					
+
 					//リストを更新
 					ankiBench.homeList.update();
 				}
@@ -663,9 +667,13 @@ document.addEventListener("DOMContentLoaded", function () {
 							//暗号化解除を試行
 							const decrypted = CryptoJS.AES.decrypt(reader.result, pass).toString(CryptoJS.enc.Utf8);
 							ankiBench.userData = JSON.parse(decrypted);
-							//「保存」ボタンを消す
+							//「保存」ボタンを非表示
 							document.getElementById("file-save").parentElement.style.display = "none";
 							document.getElementById("dist-file-save").parentElement.style.display = "none";
+
+							//「単元を追加」ボタンを非表示
+							document.getElementById("add-button").style.display = "none";
+							document.getElementById("add-button-pc").style.display = "none";
 
 							//プロパティページのテキストボックスを編集できないようにする
 							document.getElementById("pro-title").setAttribute("readonly", "");
@@ -764,6 +772,10 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 
 	document.getElementById("add-button").addEventListener("click", function () {
+		ankiBench.edit.add();
+	});
+
+	document.getElementById("add-button-pc").addEventListener("click", function () {
 		ankiBench.edit.add();
 	});
 
