@@ -81,6 +81,10 @@ input[type="text"]{
     color:rgb(255, 0, 0);
 }
 
+#home-list i.material-icons.drag-handle i.material-icons.drag-handle:active, #home-list i.material-icons.drag-handle:hover{
+    color:rgb(0, 0, 0);
+}
+
 #learn-button-wrapper{
     margin-left:auto !important;
     margin-right:auto !important;
