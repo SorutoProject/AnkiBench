@@ -89,72 +89,104 @@ const ankiBench = {
 	},
 	//#home-listに関する関数とか
 	homeList: {
-		//リストを更新
-		update: function () {
-			//#home-listを更新
-			if (ankiBench.userData.data.length === 0) {
-				document.getElementById("home-list").innerHTML = `<li class="collection-item">単元データがありません。下のボタンから新しい単元を作成しましょう。</li>`;
-				document.getElementById("home-list").dataset.listed = "false";
-			} else {
-				let homeList = document.querySelector("#home-list");
-				if (homeList.dataset.listed === "false") {
-					homeList.dataset.listed = "true";
+		//リストを更新(readOnlyBoolをtrueにすると、編集できなくなる)
+		update: function (readOnlyBool) {
+			if (readOnlyBool === true) {
+				//#home-listを更新
+				if (ankiBench.userData.data.length === 0) {
+					document.getElementById("home-list").innerHTML = `<li class="collection-item">単元データがありません。下のボタンから新しい単元を作成しましょう。</li>`;
+					document.getElementById("home-list").dataset.listed = "false";
+				} else {
+					let homeList = document.querySelector("#home-list");
+					if (homeList.dataset.listed === "false") {
+						homeList.dataset.listed = "true";
+					}
+					homeList.innerHTML = "";
+
+					ankiBench.userData.list.forEach(function (item) {
+						const newItem = document.createElement("li");
+						newItem.classList.add("collection-item");
+						newItem.innerHTML = `<div class="row"><span class="col s1 left-align"><i class="material-icons md-drag_handle drag-handle"></i></span><span class="col s8 left-align"><span class="ankibench-unit-name">${item}</span></span><span class="col s1 center-align"><i class="material-icons md-play_arrow ankibench-play"></i></span></div>`;
+						newItem.dataset["id"] = item;
+
+						//Button Events
+						newItem.querySelector(".ankibench-play").addEventListener("click", function (e) {
+							const listParent = e.currentTarget.parentElement.parentElement.parentElement; //単元リストの親要素
+							const listId = listParent.dataset.id;
+
+							ankiBench.play.open(listId);
+						});
+
+						homeList.appendChild(newItem);
+					});
 				}
-				homeList.innerHTML = "";
+			} else {
+				//#home-listを更新
+				if (ankiBench.userData.data.length === 0) {
+					document.getElementById("home-list").innerHTML = `<li class="collection-item">単元データがありません。下のボタンから新しい単元を作成しましょう。</li>`;
+					document.getElementById("home-list").dataset.listed = "false";
+				} else {
+					let homeList = document.querySelector("#home-list");
+					if (homeList.dataset.listed === "false") {
+						homeList.dataset.listed = "true";
+					}
+					homeList.innerHTML = "";
 
-				ankiBench.userData.list.forEach(function (item) {
-					const newItem = document.createElement("li");
-					newItem.classList.add("collection-item");
-					newItem.innerHTML = `<div class="row"><span class="col s1 left-align"><i class="material-icons md-drag_handle drag-handle"></i></span><span class="col s8 left-align"><span class="ankibench-unit-name">${item}</span></span><span class="col s1 center-align"><i class="material-icons md-play_arrow ankibench-play"></i></span><span class="col s1 center-align"><i class="material-icons md-edit ankibench-edit"></i></span><span class="col s1 center-align"><i class="material-icons md-delete_forever ankibench-delete"></i></span></div>`;
-					newItem.dataset["id"] = item;
+					ankiBench.userData.list.forEach(function (item) {
+						const newItem = document.createElement("li");
+						newItem.classList.add("collection-item");
+						newItem.innerHTML = `<div class="row"><span class="col s1 left-align"><i class="material-icons md-drag_handle drag-handle"></i></span><span class="col s8 left-align"><span class="ankibench-unit-name">${item}</span></span><span class="col s1 center-align"><i class="material-icons md-play_arrow ankibench-play"></i></span><span class="col s1 center-align"><i class="material-icons md-edit ankibench-edit"></i></span><span class="col s1 center-align"><i class="material-icons md-delete_forever ankibench-delete"></i></span></div>`;
+						newItem.dataset["id"] = item;
 
-					//Button Events
-					newItem.querySelector(".ankibench-play").addEventListener("click", function (e) {
-						const listParent = e.currentTarget.parentElement.parentElement.parentElement; //単元リストの親要素
-						const listId = listParent.dataset.id;
+						//Button Events
+						newItem.querySelector(".ankibench-play").addEventListener("click", function (e) {
+							const listParent = e.currentTarget.parentElement.parentElement.parentElement; //単元リストの親要素
+							const listId = listParent.dataset.id;
 
-						ankiBench.play.open(listId);
-					});
+							ankiBench.play.open(listId);
+						});
 
-					newItem.querySelector(".ankibench-edit").addEventListener("click", function () {
+						newItem.querySelector(".ankibench-edit").addEventListener("click", function () {
 
-					});
+						});
 
-					newItem.querySelector(".ankibench-unit-name").addEventListener("click", function (e) {
-						const listParent = e.currentTarget.parentElement.parentElement.parentElement; //単元リストの親要素
-						const listId = listParent.dataset.id; //単元ID
+						newItem.querySelector(".ankibench-unit-name").addEventListener("click", function (e) {
+							const listParent = e.currentTarget.parentElement.parentElement.parentElement; //単元リストの親要素
+							const listId = listParent.dataset.id; //単元ID
 
-						ankiBench.edit.changeUnitName(listId);
-					});
+							ankiBench.edit.changeUnitName(listId);
+						});
 
-					newItem.querySelector(".ankibench-delete").addEventListener("click", function (e) {
-						const listParent = e.currentTarget.parentElement.parentElement.parentElement; //単元リストの親要素
+						newItem.querySelector(".ankibench-delete").addEventListener("click", function (e) {
+							const listParent = e.currentTarget.parentElement.parentElement.parentElement; //単元リストの親要素
 
-						const listId = listParent.dataset.id; //単元ID
-						if (confirm(`単元「${listId}」を削除しますか？\n削除すると、二度と回復できません。`)) {
-							//ankiBench.userData.listから削除
+							const listId = listParent.dataset.id; //単元ID
+							if (confirm(`単元「${listId}」を削除しますか？\n削除すると、二度と回復できません。`)) {
+								//ankiBench.userData.listから削除
 
-							const listIndex = ankiBench.userData.list.indexOf(listId);
-							ankiBench.userData.list.splice(listIndex, 1); //ankiBench.userData.dataから削除
-							const dataIndex = ankiBench.userData.data.findIndex(item => item.id === listId);
-							if (dataIndex !== -1) {
-								ankiBench.userData.data.splice(dataIndex, 1);
+								const listIndex = ankiBench.userData.list.indexOf(listId);
+								ankiBench.userData.list.splice(listIndex, 1); //ankiBench.userData.dataから削除
+								const dataIndex = ankiBench.userData.data.findIndex(item => item.id === listId);
+								if (dataIndex !== -1) {
+									ankiBench.userData.data.splice(dataIndex, 1);
+								}
+
+								listParent.remove();
+
+								//単元が何もなくなったとき
+								if (ankiBench.userData.list.length === 0) {
+									document.getElementById("home-list").innerHTML = `<li class="collection-item">単元データがありません。下のボタンから新しい単元を作成しましょう。</li>`;
+									document.getElementById("home-list").dataset.listed = "false";
+								}
+
 							}
+						});
 
-							listParent.remove();
-
-							//単元が何もなくなったとき
-							if (ankiBench.userData.list.length === 0) {
-								document.getElementById("home-list").innerHTML = `<li class="collection-item">単元データがありません。下のボタンから新しい単元を作成しましょう。</li>`;
-								document.getElementById("home-list").dataset.listed = "false";
-							}
-
-						}
+						homeList.appendChild(newItem);
 					});
-
-					homeList.appendChild(newItem);
-				});
+				}
 			}
+
 		}
 	},
 	play: {
@@ -607,6 +639,14 @@ document.addEventListener("DOMContentLoaded", function () {
 				//.ankibenchファイル
 				if (fileExt === "ankibench") {
 					ankiBench.userData = JSON.parse(reader.result);
+					//「保存」ボタンを表示
+					document.getElementById("file-save").parentElement.style.display = "block";
+					document.getElementById("dist-file-save").parentElement.style.display = "block";
+
+					//プロパティページのテキストボックスを編集できるようにする
+					document.getElementById("pro-title").removeAttribute("readonly");
+					document.getElementById("pro-author").removeAttribute("readonly");
+					document.getElementById("pro-description").removeAttribute("readonly");
 				}
 				//.ankibenchroファイル(配布用暗号化ファイル)
 				else if (fileExt === "ankibenchro") {
@@ -619,6 +659,16 @@ document.addEventListener("DOMContentLoaded", function () {
 							//暗号化解除を試行
 							const decrypted = CryptoJS.AES.decrypt(reader.result, pass).toString(CryptoJS.enc.Utf8);
 							ankiBench.userData = JSON.parse(decrypted);
+							//「保存」ボタンを消す
+							document.getElementById("file-save").parentElement.style.display = "none";
+							document.getElementById("dist-file-save").parentElement.style.display = "none";
+
+							//プロパティページのテキストボックスを編集できないようにする
+							document.getElementById("pro-title").setAttribute("readonly", "");
+							document.getElementById("pro-author").setAttribute("readonly", "");
+							document.getElementById("pro-description").setAttribute("readonly", "");
+
+							//
 						} catch (e) {
 							ankiBench.modal.alert(`<b>エラー</b><p>パスワードが正しくありません</p>`);
 							console.error(e);
@@ -684,6 +734,8 @@ document.addEventListener("DOMContentLoaded", function () {
 			fileName = "notitle";
 		}
 
+		//お知らせを表示
+		alert(`配布ファイル(.ankibenchro)は、あとから編集することができません。\nあとから編集するときのために、通常の.ankibenchファイルも保存しておくことをおすすめします。`);
 		//パスワードを入力させる
 		const pass = prompt("保存するファイルを暗号化するためのパスワードを設定します。\n設定するパスワードを入力してください。\n※ここで入力したパスワードは、ファイルを開くときに必要になります。\n大切に保管し、また利用者にパスワードを通知してください。");
 
