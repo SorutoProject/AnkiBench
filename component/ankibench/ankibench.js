@@ -679,7 +679,8 @@ document.addEventListener("DOMContentLoaded", function () {
 				} else {
 					M.toast({
 						html: "対応していないファイルです"
-					})
+					});
+					return;
 				}
 
 
