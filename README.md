@@ -13,6 +13,8 @@ AnkiBenchをベースとして作成されたソフトウェアのソースコ�
 ## Made with...
 **AnkiBench** is made with these open-source projects.
 
+* Crypto-js(MIT License)
+    * [GitHub](https://github.com/brix/crypto-js)
 * DOMPurify([License](https://github.com/cure53/DOMPurify/blob/main/LICENSE))
     * [HomePage](https://cure53.de/purify)
     * [GitHub](https://github.com/cure53/DOMPurify)
