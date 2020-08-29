@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="90" height="30">
+	<!--lime bar-->
+	<rect x="10" y="50%" width="30" height="10" fill="#32bf87" rx="5">
+		<animate attributeType="XML" attributeName="x" dur="1.5s" repeatCount="indefinite" values="5;75;5"></animate>
+		<animate attributeType="XML" attributeName="width" dur="1.5s" repeatCount="indefinite" values="10;40;10;20;10"></animate>
+	</rect>
+	<!--blue bar-->
+	<rect x="30" y="50%" width="30" height="10" fill="#316ec4" rx="5">
+		<animate attributeType="XML" attributeName="x" dur="1.5s" repeatCount="indefinite" values="75;5;75"></animate>
+		<animate attributeType="XML" attributeName="width" dur="1.5s" repeatCount="indefinite" values="10;40;10;20;10"></animate>
+	</rect>
+</svg>
