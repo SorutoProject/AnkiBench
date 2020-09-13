@@ -503,7 +503,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   //#load-modal initialize
   M.Modal.init(document.getElementById("load-modal"), {
-    dismissible: false
+    dismissible: true
   });
 
   //ankibench init
