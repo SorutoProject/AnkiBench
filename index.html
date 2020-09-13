@@ -15,15 +15,12 @@
 	<link rel="stylesheet" href="component/material-icons/css/baseline.css">
 	<link rel="stylesheet" href="component/katex/katex.min.css">
 	<!--load JavaScript Files-->
-	<script src="component/svgjs/svg.min.js"></script>
 	<script src="component/materialize/materialize.min.js"></script>
-	<script src="component/filesaver/FileSaver.min.js"></script>
-	<script src="component/sortable/Sortable.min.js"></script>
 	<script src="component/katex/katex.min.js"></script>
 	<script src="component/katex/auto-render.min.js"></script>
 	<script src="component/katex/mhchem.min.js"></script>
 	<script src="component/dompurify/purify.min.js"></script>
-	<script src="component/cryptojs/crypto-js.min.js"></script>
+	<script src="component/sheetjs/xlsx.full.min.js"></script>
 	<script src="component/ankibench/ankibench.js"></script>
 
 	<!--PWA-->
@@ -63,25 +60,13 @@
 			</span>
 			<ul class="right">
 
-				<li><a class="dropdown-trigger black-text no-autoinit" data-target="dropdown-file"
-						id="file-button">ファイル<i class="material-icons md-arrow_drop_down right black-text"></i></a></li>
+				<li>
+					<a id="file-button" class="black-text">ファイルを開く</a>
+					<input type="file" style="display:none" id="file-selector" accept=".xlsx">
+				</li>
 			</ul>
 		</div>
 	</nav>
-	<!--file dropdown-->
-	<ul id="dropdown-file" class="dropdown-content">
-		<li><a class="black-text waves-effect" id="file-newfile">新規作成</a></li>
-		<li class="divider"></li>
-		<li><a class="black-text waves-effect" id="file-open">開く</a></li>
-		<li><a class="black-text waves-effect" id="file-save">保存</a></li>
-		<li class="divider"></li>
-		<li class="subheader">配布用ファイル</li>
-		<li><a class="black-text waves-effect" id="dist-file-save">保存</a></li>
-		<li class="divider"></li>
-		<li><a class="black-text waves-effect" href="./xlsx-to-ankibench/index.html" target="_blank">XLSXを変換</a></li>
-		<!--file selector-->
-		<input type="file" accept=".ankibench,.ankibenchro" id="file-selector" style="display:none;">
-	</ul>
 
 	<!--modals-->
 	<div id="main-modal" class="modal">
@@ -179,19 +164,7 @@
 						<li class="collection-item">右上の「ファイル」からAnkiBenchファイルを開くか、下のボタンから、新しい単元を追加してください。</li>
 					</ul>
 
-					<button class="btn-flat waves-effect hide-on-med-and-down" id="add-button-pc"><i
-							class="material-icons md-plus left"></i><span>単元を追加</span></button>
-					<button id="home-pro-button" class="btn-flat waves-effect"><i
-							class="material-icons md-info left"></i><span>ドキュメントのプロパティ</span></button>
-
 					<div style="height:50px"></div>
-
-					<div class="fixed-action-btn tooltipped no-autoinit" data-position="left" data-tooltip="単元を追加"
-						id="add-button">
-						<a class="btn-floating btn-large white waves-effect">
-							<i class="material-icons md-plus black-text"></i>
-						</a>
-					</div>
 				</div>
 				<div id="learn">
 
@@ -230,26 +203,6 @@
 						</div>
 					</div>
 
-				</div>
-				<div id="edit">
-
-				</div>
-				<div id="properties">
-					<h5>プロパティ</h5>
-					<div class="row">
-						<div class="input-field col s12">
-							<input value="" id="pro-title" type="text">
-							<label class="active" for="pro-title">ドキュメントのタイトル</label>
-						</div>
-						<div class="input-field col s12">
-							<input value="" id="pro-author" type="text">
-							<label class="active" for="pro-author">作成者名</label>
-						</div>
-						<div class="input-field col s12">
-							<textarea id="pro-description" class="materialize-textarea"></textarea>
-							<label for="pro-description">説明（複数行入力可）</label>
-						</div>
-					</div>
 				</div>
 				<div id="about">
 					<h5>このアプリについて</h5>
