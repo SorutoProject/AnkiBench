@@ -559,8 +559,14 @@ document.addEventListener("DOMContentLoaded", function() {
           });
           M.toast({
             html: `${e.target.files[0].name} を読み込みました。`
-          });
-        }
+		  });
+		  //ページタイトルに適用
+		  document.title = e.target.files[0].name + " - AnkiBench"
+        }else{
+			M.toast({
+				html:`対応していないファイルです。<br>.xlsxファイルのみ使用できます。`
+			})
+		}
       } catch (e) {
         ankiBench.modal.alert(`<b>エラーが発生しました</b><p>.xlsxファイルの読み込みに失敗しました。<br>ファイルが壊れている可能性があります。</p><p>詳細情報:<br>${e}</p>`);
         //ankiBench.userDataを初期状態に戻す
