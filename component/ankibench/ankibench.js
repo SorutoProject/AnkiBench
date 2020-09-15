@@ -141,6 +141,22 @@ const ankiBench = {
     }
     //DOMに適用
     listTable.innerHTML = listTableHTML;
+    //数式を変換
+    //katexを適用
+    const katexOption = {
+      delimiters: [{
+        "left": "$$",
+        "right": "$$",
+        display: false
+      },
+      {
+        "left": "$",
+        "right": "$",
+        display: false
+      }
+      ]
+    };
+    renderMathInElement(listTable, katexOption);
     //問題答えリストへ移動
     ankiBench.changeView("qa-list");
   },
