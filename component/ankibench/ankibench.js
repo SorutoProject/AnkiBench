@@ -157,6 +157,8 @@ const ankiBench = {
       ]
     };
     renderMathInElement(listTable, katexOption);
+    //問題数を表示
+    document.getElementById("qa-list-length").textContent = ankiBench.userData.data[dataIndex].cards.length;
     //問題答えリストへ移動
     ankiBench.changeView("qa-list");
   },
