@@ -695,4 +695,8 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("learn-speak-button").addEventListener("click", function () {
     ankiBench.play.speakQ();
   });
+
+  document.getElementById("learn-list").addEventListener("click", function(){
+    ankiBench.openQAList(document.getElementById("learn-unit-name").innerText);
+  });
 });
