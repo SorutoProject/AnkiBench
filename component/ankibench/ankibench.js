@@ -508,7 +508,7 @@ document.addEventListener("DOMContentLoaded", function () {
     reader.onload = function () {
       ankiBench.modal.load.close();
       try {
-        if (fileExt === "xlsx") {
+        if (fileExt === "xlsx" || fileExt === "ods") {
           const data = new Uint8Array(reader.result);
           const workbook = XLSX.read(data, {
             type: "array"
