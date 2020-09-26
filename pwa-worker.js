@@ -1,3 +1,4 @@
+/*
 // Assign Cache
 var CACHE_NAME = 'ankibench-offline-caches';
 var urlsToCache = [
@@ -176,6 +177,7 @@ self.addEventListener('activate', event => {
     })
   );
 });
+*/
 
 self.addEventListener("fetch", function() {
 
