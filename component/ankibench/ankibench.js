@@ -204,6 +204,9 @@ const ankiBench = {
         return;
       }
       document.getElementById("learn-question").textContent = ankiBench.playingData[0].q;
+      if(ankiBench.playingData[0].q.length > 20) document.getElementById("learn-question").style.fontSize = "12pt";
+      else document.getElementById("learn-question").style.fontSize = "16pt";
+
       if (ankiBench.playingData[0].displayed === true) {
         card.dataset.displayedBool = "true";
       } else {
@@ -271,6 +274,9 @@ const ankiBench = {
         ankiBench.playingData.push(ankiBench.playingData.shift());
       }
       document.getElementById("learn-question").textContent = ankiBench.playingData[0].q;
+      if(ankiBench.playingData[0].q.length > 20) document.getElementById("learn-question").style.fontSize = "12pt";
+      else document.getElementById("learn-question").style.fontSize = "16pt";
+
       if (ankiBench.playingData[0].displayed === true) {
         card.dataset.displayedBool = "true";
       } else {
