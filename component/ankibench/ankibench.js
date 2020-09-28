@@ -354,6 +354,9 @@ const ankiBench = {
 
       //最初の問題・答えを表示
       document.getElementById("learn-question").textContent = ankiBench.playingData[0].q;
+      if(ankiBench.playingData[0].q.length > 20) document.getElementById("learn-question").style.fontSize = "12pt";
+      else document.getElementById("learn-question").style.fontSize = "16pt";
+
       ankiBench.playingData[0].displayed = true; //出題したことを記録
 
       //答えを箇条書きにする
