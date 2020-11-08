@@ -21,6 +21,7 @@
 	<script src="component/katex/mhchem.min.js"></script>
 	<script src="component/dompurify/purify.min.js"></script>
 	<script src="component/sheetjs/xlsx.full.min.js"></script>
+	<script src="component/dexie/Dexie.min.js"></script>
 	<script src="component/ankibench/ankibench.js"></script>
 
 	<!--PWA-->
@@ -63,8 +64,7 @@
 					<a href="https://github.com/SorutoProject/AnkiBench/wiki/" target="_blank" class="black-text"><i class="material-icons md-help"></i></a>
 				</li>
 				<li class="waves-effect">
-					<a id="file-button" class="black-text"><i class="material-icons md-publish"></i></a>
-					<input type="file" style="display:none" id="file-selector" accept=".xlsx,.ods">
+					<a id="file-select-open" class="black-text"><i class="material-icons md-folder"></i></a>
 				</li>
 			</ul>
 		</div>
@@ -163,7 +163,7 @@
                 </ul>-->
 					<ul class="collection" id="home-list" style="text-align: center;padding-top:10px;"
 						data-listed="false">
-						<li class="collection-item"><button onclick="document.getElementById('file-selector').click()" class="btn-flat waves-effect"><i class="material-icons md-publish left"></i> ここをタップしてXLSXファイルを開く</button></li>
+						<li class="collection-item"><button onclick="document.getElementById('file-select-open').click()" class="btn-flat waves-effect"><i class="material-icons md-folder left"></i> ファイルを開く</button></li>
 					</ul>
 
 					<div style="height:50px"></div>
@@ -231,6 +231,20 @@
 					<h5>問題・解答リスト</h5>
 					<p>単元：<b><span id="qa-list-id"></span></b><br>問題数：<span id="qa-list-length"></span>問</p>
 					<table id="qa-list-table"></table>
+				</div>
+				<div id="file-list">
+					<h5>ファイル</h5>
+						<p>xlsxファイルをブラウザ内に保存しておくことで、毎回ファイルを選択する手間が省けます。<br>一時的にファイルを開きたい場合は、「一時的に開く」からファイルを選択してください。</p>						
+					<p>
+						<button id="file-button" class="btn-flat waves-effect"><i class="material-icons md-publish left"></i>一時的に開く</button>
+						<input type="file" style="display:none" id="file-selector" accept=".xlsx,.ods">
+						<button id="file-list-add-button" class="btn-flat waves-effect">
+							<i class="material-icons md-plus left"></i> ブラウザに追加
+						</button>
+						<input type="file" style="display: none;" id="file-selector-add" accept=".xlsx,.ods">
+					</p>
+					<p class="red-text" style="font-size:9pt;">【注意】<br>すでにブラウザに保存しているファイルと同じ名前のファイルを追加すると、ブラウザ内のファイルは更新されます（以前の内容は削除されます）<br>ブラウザの仕様などにより、ブラウザに保存したファイルが消えることがあります。安全のため元のファイルは削除せずに保管しておくことを強く推奨します。</p>
+					<ul class="collection" id="file-list-list"></ul>
 				</div>
 			</div>
 		</main>
